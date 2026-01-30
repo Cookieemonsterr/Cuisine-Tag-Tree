@@ -58,23 +58,7 @@ function setupEventListeners() {
   }
 
   // Settings
-  document.getElementById("maxCuisines").addEventListener("change", (e) => {
-    appState.maxCuisines = parseInt(e.target.value);
-    document.getElementById("displayMaxCuisines").textContent =
-      appState.maxCuisines;
-    saveState();
-  });
-  document.getElementById("maxTags").addEventListener("change", (e) => {
-    appState.maxTags = parseInt(e.target.value);
-    document.getElementById("displayMaxTags").textContent = appState.maxTags;
-    saveState();
-  });
-  document.getElementById("maxSubpageTags").addEventListener("change", (e) => {
-    appState.maxSubpageTags = parseInt(e.target.value);
-    document.getElementById("displayMaxSubpageTags").textContent =
-      appState.maxSubpageTags;
-    saveState();
-  });
+  // Removed maxCuisines, maxTags, maxSubpageTags slider listeners
   document.getElementById("autoSave").addEventListener("change", (e) => {
     appState.autoSave = e.target.checked;
     saveState();
@@ -711,9 +695,10 @@ function loadStateFromStorage() {
   const saved = localStorage.getItem("cuisineTagState");
   if (saved) {
     const loaded = JSON.parse(saved);
-    appState.maxCuisines = loaded.maxCuisines || 3;
-    appState.maxTags = loaded.maxTags || 6;
-    appState.maxSubpageTags = loaded.maxSubpageTags || 2;
+    // Hardcode selection limits (no longer user-editable)
+    appState.maxCuisines = 3;
+    appState.maxTags = 6;
+    appState.maxSubpageTags = 2;
     appState.autoSave = loaded.autoSave !== false;
     appState.showCategories = loaded.showCategories !== false;
     appState.darkMode = loaded.darkMode || false;
@@ -729,10 +714,7 @@ function loadStateFromStorage() {
     );
   }
 
-  // Update UI with loaded settings
-  document.getElementById("maxCuisines").value = appState.maxCuisines;
-  document.getElementById("maxTags").value = appState.maxTags;
-  document.getElementById("maxSubpageTags").value = appState.maxSubpageTags;
+  // Update UI with loaded settings (only those that still exist)
   document.getElementById("autoSave").checked = appState.autoSave;
   document.getElementById("showCategories").checked = appState.showCategories;
   document.getElementById("darkMode").checked = appState.darkMode;
@@ -740,12 +722,6 @@ function loadStateFromStorage() {
   if (notesBox) {
     notesBox.value = appState.notes;
   }
-
-  document.getElementById("displayMaxCuisines").textContent =
-    appState.maxCuisines;
-  document.getElementById("displayMaxTags").textContent = appState.maxTags;
-  document.getElementById("displayMaxSubpageTags").textContent =
-    appState.maxSubpageTags;
 
   if (appState.darkMode) {
     document.body.classList.add("dark-mode");
