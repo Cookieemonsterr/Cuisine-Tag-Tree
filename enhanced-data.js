@@ -1122,8 +1122,7 @@ const cuisineTagData = {
     { id: 1281, name: "Dunkin Donuts", category: "Brands" },
   ],
 
-  // Subpage tags
-  subpageTags: [
+    subpageTags: [
     { id: 1, name: "Grills", category: "Food" },
     { id: 2, name: "Shawarma", category: "Food" },
     { id: 3, name: "Manakish", category: "Food" },
@@ -1165,6 +1164,9 @@ const cuisineTagData = {
     { id: 39, name: "Cakes", category: "Desserts" },
     { id: 40, name: "Bakery", category: "Food" },
   ],
+}; // ✅ THIS CLOSES cuisineTagData CORRECTLY
+
+// ✅ NOW the patch runs OUTSIDE the object (valid JS)
 (() => {
   const cuisineIdByName = {
     "algerian": 1264,
@@ -1212,7 +1214,7 @@ const cuisineTagData = {
     "tacos": 42,
     "thai": 30,
     "turkish": 22,
-    "vietnamese": 26
+    "vietnamese": 26,
   };
 
   cuisineTagData.cuisines.forEach((c) => {
@@ -1239,6 +1241,7 @@ const cuisineTagData = {
       subpageTags: [],
     });
   }
+
   const nonGeoTags = [
     { id: 24, name: "Seafood", category: "Others" },
     { id: 35, name: "cafe", category: "Others" },
@@ -1284,7 +1287,3 @@ const cuisineTagData = {
     if (!existingIds.has(t.id)) cuisineTagData.allTags.push(t);
   });
 })();
-
-
-
-
