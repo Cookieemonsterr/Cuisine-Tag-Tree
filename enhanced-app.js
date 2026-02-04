@@ -6,6 +6,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Pie", "Mezze", "Manakish", "Kebab", "BBQ & Grill", "Hummus"],
+      subpageTags: [],
     },
     {
       id: 59,
@@ -13,6 +14,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Foul", "Fatteh", "Kebab", "Tawooq", "Falafel", "Hummus"],
+      subpageTags: [],
     },
     {
       id: 1264,
@@ -20,6 +22,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Fatteh", "Falafel", "Foul", "Tawooq", "Hummus"],
+      subpageTags: [],     
     },
     {
       id: 1265,
@@ -27,6 +30,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Mansaf (Jordanian)", "Kunafa"],
+      subpageTags: [],  
     },
     {
       id: 1266,
@@ -34,6 +38,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Kabsa (Saudi)", "Mandi"],
+      subpageTags: [],  
     },
     {
       id: 1267,
@@ -41,6 +46,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Lugaimat (Emirati)", "Harees (Emirati)"],
+      subpageTags: [],
     },
     {
       id: 1268,
@@ -48,6 +54,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Biryani"],
+      subpageTags: [],  
     },
     {
       id: 1269,
@@ -55,6 +62,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Rice"],
+      subpageTags: [],
     },
     {
       id: 1270,
@@ -62,6 +70,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Koshary (Egyptian)", "Mutabbaq"],
+      subpageTags: [],
     },
     {
       id: 1271,
@@ -69,6 +78,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Rice", "Meat Dish", "Chicken Dishes", "Tajin"],
+      subpageTags: [],
     },
     {
       id: 1272,
@@ -76,6 +86,7 @@ const cuisineTagData = {
       category: "Arabic",
       region: "",
       foodTags: ["Tajin"],
+      subpageTags: [],
     },
     {
       id: 1273,
@@ -83,6 +94,7 @@ const cuisineTagData = {
       category: "Turkish",
       region: "",
       foodTags: ["Doner (Turkish)", "BBQ & Grill", "Kebab"],
+      subpageTags: [],
     },
     {
       id: 1,
@@ -104,6 +116,7 @@ const cuisineTagData = {
         "Pancit",
         "Seafood",
       ],
+      subpageTags: [],
     },
 
     {
@@ -125,6 +138,7 @@ const cuisineTagData = {
         "Pancit",
         "Seafood",
       ],
+      subpageTags: [],
     },
     {
       id: 3,
@@ -145,6 +159,7 @@ const cuisineTagData = {
         "Pancit",
         "Seafood",
       ],
+      subpageTags: [],
     },
     {
       id: 4,
@@ -165,6 +180,7 @@ const cuisineTagData = {
         "Pancit",
         "Seafood",
       ],
+      subpageTags: [],
     },
     {
       id: 5,
@@ -186,6 +202,7 @@ const cuisineTagData = {
         "Seafood",
         "Nasi Goreng (Indonesian)",
       ],
+      subpageTags: [],
     },
     {
       id: 6,
@@ -207,6 +224,7 @@ const cuisineTagData = {
         "Seafood",
         "Bibimbap (Korean)",
       ],
+      subpageTags: [],
     },
     {
       id: 7,
@@ -227,6 +245,7 @@ const cuisineTagData = {
         "Pancit",
         "Seafood",
       ],
+      subpageTags: [],
     },
     {
       id: 8,
@@ -247,6 +266,7 @@ const cuisineTagData = {
         "Pancit",
         "Seafood",
       ],
+      subpageTags: [],
     },
     {
       id: 9,
@@ -267,6 +287,7 @@ const cuisineTagData = {
         "Pancit",
         "Seafood",
       ],
+      subpageTags: [],
     },
     {
       id: 10,
@@ -287,6 +308,7 @@ const cuisineTagData = {
         "Pancit",
         "Seafood",
       ],
+      subpageTags: [],
     },
     {
       id: 11,
@@ -307,6 +329,7 @@ const cuisineTagData = {
         "Pancit",
         "Seafood",
       ],
+      subpageTags: [],
     },
     {
       id: 12,
@@ -325,6 +348,7 @@ const cuisineTagData = {
         "Curry Dishes",
         "Meat Dish",
       ],
+      subpageTags: [],
     },
     {
       id: 13,
@@ -349,6 +373,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 14,
@@ -373,6 +398,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 15,
@@ -397,6 +423,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 16,
@@ -421,6 +448,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 17,
@@ -447,6 +475,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 18,
@@ -471,6 +500,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 19,
@@ -495,6 +525,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 20,
@@ -519,6 +550,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 21,
@@ -544,6 +576,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 22,
@@ -569,6 +602,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 23,
@@ -593,6 +627,7 @@ const cuisineTagData = {
         "Dosa",
         "Desi",
       ],
+      subpageTags: [],
     },
     {
       id: 26,
@@ -611,6 +646,7 @@ const cuisineTagData = {
         "Cakes",
         "Waffles",
       ],
+      subpageTags: [],
     },
     {},
     {
@@ -643,6 +679,7 @@ const cuisineTagData = {
         "Protein Balls",
         "Vegetarian",
       ],
+      subpageTags: [],
     },
     {
       id: 36,
@@ -666,6 +703,7 @@ const cuisineTagData = {
         "Juices",
         "Smoothies",
       ],
+      subpageTags: [],
     },
     {
       id: 38,
@@ -686,6 +724,7 @@ const cuisineTagData = {
         "Paratha (if the Cafeteria is Indian cuisine)",
         "Milk Shake",
       ],
+      subpageTags: [],
     },
     {
       id: 41,
@@ -890,6 +929,7 @@ const cuisineTagData = {
         "Bakery",
         "Pastries",
       ],
+      subpageTags: [],
     },
     {
       id: 52,
@@ -905,6 +945,7 @@ const cuisineTagData = {
         "Wings",
         "Steak",
       ],
+      subpageTags: [],
     },
     {
       id: 53,
@@ -920,6 +961,7 @@ const cuisineTagData = {
         "Wings",
         "Steak",
       ],
+      subpageTags: [],
     },
     {
       id: 53,
@@ -935,6 +977,7 @@ const cuisineTagData = {
         "Wings",
         "Steak",
       ],
+      subpageTags: [],
     },
   ],
 
@@ -1286,3 +1329,4 @@ const cuisineTagData = {
     { id: 1089, name: "Classic Burgers Subpage", category: "Subpage" },
   ],
 };
+
