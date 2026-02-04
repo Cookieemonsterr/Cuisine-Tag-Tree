@@ -9,6 +9,7 @@ const appState = {
   showCategories: true,
   darkMode: false,
   currentFilter: "all",
+  lockedCuisineCategory: null,
 };
 
 // Initialize app
@@ -17,14 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initializeApp() {
-  // Safety: if data file didn't load, fail loudly in console
-  if (typeof cuisineTagData === "undefined") {
-    console.error(
-      "cuisineTagData is not defined. Make sure enhanced-data.js loads before enhanced-app.js",
-    );
-    return;
-  }
-
   loadStateFromStorage();
   setupEventListeners();
   renderUI();
@@ -45,10 +38,14 @@ function setupEventListeners() {
 
   // Sidebar buttons
   document.getElementById("exportBtn").addEventListener("click", exportData);
-  document.getElementById("importBtn").addEventListener("click", () =>
-    document.getElementById("fileInput").click(),
-  );
-  document.getElementById("clearBtn").addEventListener("click", clearAllSelections);
+  document
+    .getElementById("importBtn")
+    .addEventListener("click", () =>
+      document.getElementById("fileInput").click(),
+    );
+  document
+    .getElementById("clearBtn")
+    .addEventListener("click", clearAllSelections);
 
   // Notes textarea
   const notesBox = document.getElementById("notesBox");
@@ -64,12 +61,10 @@ function setupEventListeners() {
     appState.autoSave = e.target.checked;
     saveState();
   });
-
   document.getElementById("showCategories").addEventListener("change", (e) => {
     appState.showCategories = e.target.checked;
     renderCuisines();
   });
-
   document.getElementById("darkMode").addEventListener("change", (e) => {
     appState.darkMode = e.target.checked;
     document.body.classList.toggle("dark-mode");
@@ -83,8 +78,9 @@ function setupEventListeners() {
       showToast("All data has been reset", "success");
     }
   });
-
-  document.getElementById("exportDataBtn").addEventListener("click", exportData);
+  document
+    .getElementById("exportDataBtn")
+    .addEventListener("click", exportData);
 
   // File import
   document.getElementById("fileInput").addEventListener("change", importData);
@@ -95,7 +91,9 @@ function setupEventListeners() {
   });
 
   // Preview tab
-  document.getElementById("copyJsonBtn").addEventListener("click", copyJsonToClipboard);
+  document
+    .getElementById("copyJsonBtn")
+    .addEventListener("click", copyJsonToClipboard);
 
   // Help modal
   document.getElementById("helpBtn").addEventListener("click", () => {
@@ -125,8 +123,6 @@ function renderUI() {
 // Render cuisines
 function renderCuisines() {
   const grid = document.getElementById("cuisineGrid");
-  if (!grid) return;
-
   grid.innerHTML = "";
 
   const filtered = filterCuisinesBySearch();
@@ -134,7 +130,6 @@ function renderCuisines() {
   if (appState.showCategories) {
     const grouped = {};
     filtered.forEach((cuisine) => {
-      if (!cuisine || !cuisine.category) return;
       if (!grouped[cuisine.category]) grouped[cuisine.category] = [];
       grouped[cuisine.category].push(cuisine);
     });
@@ -175,11 +170,20 @@ function renderCuisines() {
 function createCuisineButton(cuisine) {
   const btn = document.createElement("button");
   btn.className = "btn cuisine-btn";
-  btn.textContent = cuisine.name;
+  btn.textContent = `${cuisine.name} (#${cuisine.id})`;
   btn.dataset.id = cuisine.id;
 
-  if (appState.selectedCuisines.find((c) => c.id === cuisine.id)) {
-    btn.classList.add("active");
+  const isSelected = appState.selectedCuisines.find((c) => c.id === cuisine.id);
+  if (isSelected) btn.classList.add("active");
+
+  // Lock to a single cuisine tree (category)
+  const locked = appState.lockedCuisineCategory;
+  const isLockedOut = locked && cuisine.category !== locked && !isSelected;
+
+  if (isLockedOut) {
+    btn.classList.add("disabled");
+    btn.disabled = true;
+    btn.title = `You already started with ${locked}. Clear your cuisines to switch.`;
   }
 
   btn.addEventListener("click", () => toggleCuisine(cuisine));
@@ -190,18 +194,45 @@ function toggleCuisine(cuisine) {
   const index = appState.selectedCuisines.findIndex((c) => c.id === cuisine.id);
 
   if (index > -1) {
+    // Remove
     appState.selectedCuisines.splice(index, 1);
     showToast(`${cuisine.name} removed`, "info");
+
+    // If nothing selected anymore, unlock the tree
+    if (appState.selectedCuisines.length === 0) {
+      appState.lockedCuisineCategory = null;
+    }
   } else {
+    // Add (but only within one tree/category)
+    if (
+      appState.lockedCuisineCategory &&
+      cuisine.category !== appState.lockedCuisineCategory
+    ) {
+      showToast(
+        `You can only pick cuisines from ONE tree. You started with ${appState.lockedCuisineCategory}.`,
+        "warning",
+      );
+      return;
+    }
+
     if (appState.selectedCuisines.length < appState.maxCuisines) {
       appState.selectedCuisines.push(cuisine);
       showToast(`${cuisine.name} added`, "success");
+
+      // Lock on first add
+      if (!appState.lockedCuisineCategory) {
+        appState.lockedCuisineCategory = cuisine.category;
+      }
     } else {
-      showToast(`Maximum ${appState.maxCuisines} cuisines can be selected`, "warning");
+      showToast(
+        `Maximum ${appState.maxCuisines} cuisines can be selected`,
+        "warning",
+      );
       return;
     }
   }
 
+  // Reset tags whenever cuisines change
   appState.selectedTags = [];
   saveState();
   renderUI();
@@ -209,12 +240,9 @@ function toggleCuisine(cuisine) {
 
 // Filter cuisines by search
 function filterCuisinesBySearch() {
-  const searchEl = document.getElementById("searchInput");
-  const searchTerm = (searchEl ? searchEl.value : "").toLowerCase();
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
 
-  return (cuisineTagData.cuisines || []).filter((cuisine) => {
-    if (!cuisine || !cuisine.name || !cuisine.category) return false;
-
+  return cuisineTagData.cuisines.filter((cuisine) => {
     if (
       appState.currentFilter !== "all" &&
       cuisine.category.toLowerCase() !== appState.currentFilter
@@ -231,70 +259,65 @@ function filterCuisines(filter) {
     btn.classList.toggle("active", btn.dataset.filter === filter);
   });
   renderCuisines();
-  renderTags();
 }
 
-function filterBySearch() {
+function filterBySearch(searchTerm) {
   renderCuisines();
   renderTags();
 }
 
-function normalizeTagName(s) {
-  return String(s || "")
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-// Get related tags (match cuisine.foodTags against allTags)
+// Get related tags
 function getRelatedTags() {
   if (appState.selectedCuisines.length === 0) return [];
 
-  // Map allTags by normalized name for fast matching
-  const allTagsByName = new Map();
+  // Build a fast lookup from the master tags list (name -> tag object)
+  const byName = new Map();
   (cuisineTagData.allTags || []).forEach((t) => {
-    allTagsByName.set(normalizeTagName(t.name), t);
+    if (t && t.name) byName.set(String(t.name).toLowerCase(), t);
   });
 
-  const resultMap = new Map();
+  const tagMap = new Map();
 
   appState.selectedCuisines.forEach((cuisine) => {
-    if (!cuisine || !Array.isArray(cuisine.foodTags)) return;
+    (cuisine.foodTags || []).forEach((rawName) => {
+      const tagName = String(rawName).trim();
+      const key = tagName.toLowerCase();
 
-    cuisine.foodTags.forEach((rawName) => {
-      const key = normalizeTagName(rawName);
-      const real = allTagsByName.get(key);
+      if (tagMap.has(key)) return;
 
-      if (real) {
-        resultMap.set(String(real.id), {
-          id: real.id,
-          name: real.name,
-          category: real.category || "Food",
+      const master = byName.get(key);
+
+      if (master) {
+        // Use the real ID + category from the sheet/data
+        tagMap.set(key, {
+          id: master.id,
+          name: master.name,
+          category: master.category || "Other",
         });
       } else {
-        // Fallback: still show it even if not found in allTags
-        const fallbackId = `custom:${key}`;
-        resultMap.set(fallbackId, {
-          id: fallbackId,
-          name: rawName,
-          category: "Food",
+        // Fallback: create a stable-ish ID (so it doesn’t change every refresh)
+        const stableId = `custom_${key.replace(/[^a-z0-9]+/g, "_")}`;
+        tagMap.set(key, {
+          id: stableId,
+          name: tagName,
+          category: "Other",
         });
       }
     });
   });
 
-  return Array.from(resultMap.values());
+  return Array.from(tagMap.values());
 }
 
 // Render tags
 function renderTags() {
   const grid = document.getElementById("tagGrid");
   const infoBox = document.getElementById("tagInfo");
-  if (!grid || !infoBox) return;
 
   if (appState.selectedCuisines.length === 0) {
     grid.innerHTML = "";
-    infoBox.innerHTML = '<p class="warning">👉 Select cuisines above to see related tags</p>';
+    infoBox.innerHTML =
+      '<p class="warning">👉 Select cuisines above to see related tags</p>';
     document.getElementById("tagCount").textContent = "0";
     return;
   }
@@ -308,7 +331,7 @@ function renderTags() {
   relatedTags.forEach((tag) => {
     const btn = document.createElement("button");
     btn.className = "btn tag-btn";
-    btn.textContent = `${tag.name} ${tag.category ? `[${tag.category}]` : ""}`;
+    btn.textContent = `${tag.name} (#${tag.id}) ${tag.category ? `[${tag.category}]` : ""}`;
     btn.dataset.id = tag.id;
 
     if (appState.selectedTags.find((t) => t.id === tag.id)) {
@@ -345,17 +368,23 @@ function toggleTag(tag) {
 
 // Update counters
 function updateAllCounters() {
-  document.getElementById("cuisineCount").textContent = appState.selectedCuisines.length;
-  document.getElementById("tagCount").textContent = appState.selectedTags.length;
+  document.getElementById("cuisineCount").textContent =
+    appState.selectedCuisines.length;
+  document.getElementById("tagCount").textContent =
+    appState.selectedTags.length;
 }
 
 // Update summary
 function updateSummary() {
+  // Preview tab
   const previewCuisines = document.getElementById("previewCuisines");
   previewCuisines.innerHTML =
     appState.selectedCuisines.length > 0
       ? appState.selectedCuisines
-          .map((c) => `<li><span class="badge">${c.category}</span> ${c.name}</li>`)
+          .map(
+            (c) =>
+              `<li><span class="badge">${c.category}</span> ${c.name} <span class="muted">#${c.id}</span></li>`,
+          )
           .join("")
       : '<li class="empty">No cuisines selected</li>';
 
@@ -363,11 +392,17 @@ function updateSummary() {
   previewTags.innerHTML =
     appState.selectedTags.length > 0
       ? appState.selectedTags
-          .map((t) => `<li><span class="badge">${t.category}</span> ${t.name}</li>`)
+          .map(
+            (t) =>
+              `<li><span class="badge">${t.category}</span> ${t.name} <span class="muted">#${t.id}</span></li>`,
+          )
           .join("")
       : '<li class="empty">No tags selected</li>';
 
+  // JSON preview
   updateJsonPreview();
+
+  // Analytics
   updateAnalytics();
 }
 
@@ -375,11 +410,12 @@ function updateJsonPreview() {
   let csv = "CAREEM - CUISINE & TAG SELECTION\n";
   csv += `Export Date,${new Date().toLocaleString()}\n\n`;
 
+  // Cuisines section
   csv += "SELECTED CUISINES\n";
-  csv += "Name,Category,Region\n";
+  csv += "ID,Name,Category,Region\n";
   if (appState.selectedCuisines.length > 0) {
     appState.selectedCuisines.forEach((cuisine) => {
-      csv += `"${cuisine.name}","${cuisine.category}","${cuisine.region || ""}"\n`;
+      csv += `"${cuisine.id}","${cuisine.name}","${cuisine.category}","${cuisine.region || ""}"\n`;
     });
   } else {
     csv += "No cuisines selected\n";
@@ -387,17 +423,20 @@ function updateJsonPreview() {
 
   csv += "\n";
 
+  // Tags section
   csv += "SELECTED TAGS\n";
-  csv += "Name,Category\n";
+  csv += "ID,Name,Category\n";
   if (appState.selectedTags.length > 0) {
     appState.selectedTags.forEach((tag) => {
-      csv += `"${tag.name}","${tag.category || ""}"\n`;
+      csv += `"${tag.id}","${tag.name}","${tag.category || ""}"\n`;
     });
   } else {
     csv += "No tags selected\n";
   }
 
   csv += "\n";
+
+  // Summary
   csv += "SUMMARY\n";
   csv += `Total Cuisines Selected,${appState.selectedCuisines.length}\n`;
   csv += `Total Tags Selected,${appState.selectedTags.length}\n`;
@@ -416,8 +455,9 @@ function updateAnalytics() {
     `${appState.selectedTags.length} / ${appState.maxTags}`;
   document.getElementById("statCompletion").textContent = `${completion}%`;
 
+  // Category breakdown
   const breakdown = {};
-  appState.selectedCuisines.forEach(() => {
+  appState.selectedCuisines.forEach((c) => {
     breakdown["Cuisines"] = (breakdown["Cuisines"] || 0) + 1;
   });
   appState.selectedTags.forEach((t) => {
@@ -437,12 +477,17 @@ function updateAnalytics() {
 
 // Tab switching
 function switchTab(tabName) {
-  document.querySelectorAll(".tab-content").forEach((tab) => tab.classList.remove("active"));
-  document.querySelectorAll(".nav-item").forEach((btn) => btn.classList.remove("active"));
+  document
+    .querySelectorAll(".tab-content")
+    .forEach((tab) => tab.classList.remove("active"));
+  document
+    .querySelectorAll(".nav-item")
+    .forEach((btn) => btn.classList.remove("active"));
 
   document.getElementById(`${tabName}Tab`).classList.add("active");
   document.querySelector(`[data-tab="${tabName}"]`).classList.add("active");
 
+  // Update titles
   const titles = {
     selector: {
       title: "Cuisine & Tag Selector",
@@ -461,7 +506,8 @@ function switchTab(tabName) {
 
   if (titles[tabName]) {
     document.getElementById("pageTitle").textContent = titles[tabName].title;
-    document.getElementById("pageSubtitle").textContent = titles[tabName].subtitle;
+    document.getElementById("pageSubtitle").textContent =
+      titles[tabName].subtitle;
   }
 }
 
@@ -470,11 +516,12 @@ function exportData() {
   let csv = "CAREEM - CUISINE & TAG SELECTION\n";
   csv += `Export Date,${new Date().toLocaleString()}\n\n`;
 
+  // Cuisines section
   csv += "SELECTED CUISINES\n";
-  csv += "Name,Category,Region\n";
+  csv += "ID,Name,Category,Region\n";
   if (appState.selectedCuisines.length > 0) {
     appState.selectedCuisines.forEach((cuisine) => {
-      csv += `"${cuisine.name}","${cuisine.category}","${cuisine.region || ""}"\n`;
+      csv += `"${cuisine.id}","${cuisine.name}","${cuisine.category}","${cuisine.region || ""}"\n`;
     });
   } else {
     csv += "No cuisines selected\n";
@@ -482,17 +529,20 @@ function exportData() {
 
   csv += "\n";
 
+  // Tags section
   csv += "SELECTED TAGS\n";
-  csv += "Name,Category,Count\n";
+  csv += "ID,Name,Category,Count\n";
   if (appState.selectedTags.length > 0) {
     appState.selectedTags.forEach((tag) => {
-      csv += `"${tag.name}","${tag.category || ""}",1\n`;
+      csv += `"${tag.id}","${tag.name}","${tag.category || ""}",1\n`;
     });
   } else {
     csv += "No tags selected\n";
   }
 
   csv += "\n";
+
+  // Summary
   csv += "SUMMARY\n";
   csv += `Total Cuisines Selected,${appState.selectedCuisines.length}\n`;
   csv += `Total Tags Selected,${appState.selectedTags.length}\n`;
@@ -507,7 +557,7 @@ function exportData() {
   showToast("Data exported as CSV successfully", "success");
 }
 
-// Import data (expects JSON with { cuisines: [], tags: [] })
+// Import data
 function importData(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -541,6 +591,7 @@ function copyJsonToClipboard() {
 function clearAllSelections() {
   appState.selectedCuisines = [];
   appState.selectedTags = [];
+  appState.lockedCuisineCategory = null;
   saveState();
   renderUI();
   showToast("All selections cleared", "info");
@@ -557,36 +608,50 @@ function loadStateFromStorage() {
   const saved = localStorage.getItem("cuisineTagState");
   if (saved) {
     const loaded = JSON.parse(saved);
-
     // Hardcode selection limits (no longer user-editable)
     appState.maxCuisines = 3;
     appState.maxTags = 6;
-
     appState.autoSave = loaded.autoSave !== false;
     appState.showCategories = loaded.showCategories !== false;
     appState.darkMode = loaded.darkMode || false;
     appState.notes = loaded.notes || "";
 
-    appState.selectedCuisines = (loaded.selectedCuisines || []).filter(
-      (c) => (cuisineTagData.cuisines || []).find((x) => x.id === c.id),
-    );
+    appState.selectedCuisines = (loaded.selectedCuisines || [])
+      .map((c) => {
+        // Prefer match by ID, but fallback to name (in case IDs changed)
+        const byId = cuisineTagData.cuisines.find((x) => x.id === c.id);
+        if (byId) return byId;
+        if (c.name) {
+          const byName = cuisineTagData.cuisines.find(
+            (x) => String(x.name).toLowerCase() === String(c.name).toLowerCase(),
+          );
+          if (byName) return byName;
+        }
+        return null;
+      })
+      .filter(Boolean);
 
-    // allow custom:* tags + real allTags ids
-    appState.selectedTags = (loaded.selectedTags || []).filter((t) => {
-      if (String(t.id).startsWith("custom:")) return true;
-      return (cuisineTagData.allTags || []).find((x) => x.id === t.id);
-    });
+    // Recompute the locked tree from the current selection
+    appState.lockedCuisineCategory =
+      appState.selectedCuisines.length > 0 ? appState.selectedCuisines[0].category : null;
+
+    appState.selectedTags = (loaded.selectedTags || []).filter((t) =>
+      cuisineTagData.allTags.find((x) => x.id === t.id),
+    );
   }
 
   // Update UI with loaded settings (only those that still exist)
   document.getElementById("autoSave").checked = appState.autoSave;
   document.getElementById("showCategories").checked = appState.showCategories;
   document.getElementById("darkMode").checked = appState.darkMode;
-
   const notesBox = document.getElementById("notesBox");
-  if (notesBox) notesBox.value = appState.notes;
+  if (notesBox) {
+    notesBox.value = appState.notes;
+  }
 
-  if (appState.darkMode) document.body.classList.add("dark-mode");
+  if (appState.darkMode) {
+    document.body.classList.add("dark-mode");
+  }
 }
 
 // Toast notifications
@@ -605,7 +670,9 @@ function showToast(message, type = "info") {
   }-circle"></i> ${message}`;
   container.appendChild(toast);
 
-  setTimeout(() => toast.classList.add("show"), 10);
+  setTimeout(() => {
+    toast.classList.add("show");
+  }, 10);
 
   setTimeout(() => {
     toast.classList.remove("show");
