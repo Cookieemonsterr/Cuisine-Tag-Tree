@@ -3,7 +3,7 @@ const appState = {
   selectedCuisines: [],
   selectedTags: [],
   notes: "",
-  maxCuisines: 3,
+  maxCuisines: 2,
   maxTags: 6,
   autoSave: true,
   showCategories: true,
@@ -491,7 +491,7 @@ function switchTab(tabName) {
   const titles = {
     selector: {
       title: "Cuisine & Tag Selector",
-      subtitle: "Select up to 3 cuisines to view related tags",
+      subtitle: "Select up to 2 cuisines to view related tags",
     },
     preview: {
       title: "Selection Preview",
@@ -679,3 +679,4 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
