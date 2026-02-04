@@ -232,48 +232,53 @@ function filterBySearch(searchTerm) {
   renderCuisines();
   renderTags();
 }
+function normalizeTagName(s) {
+  return String(s || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-// Get related tags
 function getRelatedTags() {
   if (appState.selectedCuisines.length === 0) return [];
 
-  const tagMap = new Map();
-  const tagCategories = {
-    Kebab: "Food",
-    Shawarma: "Food",
-    Manakish: "Food",
-    Falafel: "Food",
-    Mezze: "Food",
-    Tabbouleh: "Food",
-    Kibbeh: "Food",
-    Hummus: "Food",
-    Masgouf: "Food",
-    Kabsa: "Food",
-    Bread: "Food",
-    "Grilled Meats": "Food",
-    "Arabic Sweets": "Desserts",
-    "Arabic Coffee": "Beverages",
-    Biryani: "Food",
-    Rice: "Food",
-    Doner: "Food",
-    Salads: "Food",
-    Couscous: "Food",
-    Tagine: "Food",
-  };
+  // Map allTags by normalized name for fast matching
+  const allTagsByName = new Map();
+  cuisineTagData.allTags.forEach((t) => {
+    allTagsByName.set(normalizeTagName(t.name), t);
+  });
+
+  const resultMap = new Map();
 
   appState.selectedCuisines.forEach((cuisine) => {
-    cuisine.foodTags.forEach((tagName) => {
-      if (!tagMap.has(tagName)) {
-        tagMap.set(tagName, {
-          id: Math.random().toString(36).substr(2, 9),
-          name: tagName,
-          category: tagCategories[tagName] || "Food",
+    if (!cuisine || !Array.isArray(cuisine.foodTags)) return;
+
+    cuisine.foodTags.forEach((rawName) => {
+      const key = normalizeTagName(rawName);
+
+      // Prefer real tags from allTags (stable ids + correct categories)
+      const real = allTagsByName.get(key);
+
+      if (real) {
+        resultMap.set(real.id, {
+          id: real.id,
+          name: real.name,
+          category: real.category || "Food",
+        });
+      } else {
+        // Fallback: still show tag even if it's not in allTags
+        const fallbackId = `custom:${key}`;
+        resultMap.set(fallbackId, {
+          id: fallbackId,
+          name: rawName,
+          category: "Food",
         });
       }
     });
   });
 
-  return Array.from(tagMap.values());
+  return Array.from(resultMap.values());
+}
 }
 
 // Render tags
@@ -584,8 +589,10 @@ function loadStateFromStorage() {
     appState.selectedCuisines = (loaded.selectedCuisines || []).filter((c) =>
       cuisineTagData.cuisines.find((x) => x.id === c.id),
     );
-    appState.selectedTags = (loaded.selectedTags || []).filter((t) =>
-      cuisineTagData.allTags.find((x) => x.id === t.id),
+    appState.selectedTags = (loaded.selectedTags || []).filter((t) => {
+  if (String(t.id).startsWith("custom:")) return true;
+  return cuisineTagData.allTags.find((x) => x.id === t.id);
+});
     );
   }
 
@@ -620,3 +627,4 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
