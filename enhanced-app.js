@@ -2,14 +2,14 @@
 const appState = {
   selectedCuisines: [],
   selectedTags: [],
+  lockedCuisineCategory: null,
   notes: "",
-  maxCuisines: 2,
+  maxCuisines: 3,
   maxTags: 6,
   autoSave: true,
   showCategories: true,
   darkMode: false,
   currentFilter: "all",
-  lockedCuisineCategory: null,
 };
 
 // Initialize app
@@ -57,6 +57,7 @@ function setupEventListeners() {
   }
 
   // Settings
+  // Removed maxCuisines, maxTags, maxSubpageTags slider listeners
   document.getElementById("autoSave").addEventListener("change", (e) => {
     appState.autoSave = e.target.checked;
     saveState();
@@ -170,20 +171,11 @@ function renderCuisines() {
 function createCuisineButton(cuisine) {
   const btn = document.createElement("button");
   btn.className = "btn cuisine-btn";
-  btn.textContent = `${cuisine.name} (#${cuisine.id})`;
+  btn.textContent = `${cuisine.name} (${cuisine.id})`;
   btn.dataset.id = cuisine.id;
 
-  const isSelected = appState.selectedCuisines.find((c) => c.id === cuisine.id);
-  if (isSelected) btn.classList.add("active");
-
-  // Lock to a single cuisine tree (category)
-  const locked = appState.lockedCuisineCategory;
-  const isLockedOut = locked && cuisine.category !== locked && !isSelected;
-
-  if (isLockedOut) {
-    btn.classList.add("disabled");
-    btn.disabled = true;
-    btn.title = `You already started with ${locked}. Clear your cuisines to switch.`;
+  if (appState.selectedCuisines.find((c) => c.id === cuisine.id)) {
+    btn.classList.add("active");
   }
 
   btn.addEventListener("click", () => toggleCuisine(cuisine));
@@ -193,36 +185,36 @@ function createCuisineButton(cuisine) {
 function toggleCuisine(cuisine) {
   const index = appState.selectedCuisines.findIndex((c) => c.id === cuisine.id);
 
+  // Removing
   if (index > -1) {
-    // Remove
     appState.selectedCuisines.splice(index, 1);
-    showToast(`${cuisine.name} removed`, "info");
 
-    // If nothing selected anymore, unlock the tree
+    // If nothing selected anymore → unlock category
     if (appState.selectedCuisines.length === 0) {
       appState.lockedCuisineCategory = null;
     }
+
+    showToast(`${cuisine.name} (${cuisine.id}) removed`, "info");
   } else {
-    // Add (but only within one tree/category)
-    if (
-      appState.lockedCuisineCategory &&
-      cuisine.category !== appState.lockedCuisineCategory
-    ) {
+    // Adding → enforce "one tree type only"
+    const pickedCategory = cuisine.category || null;
+
+    if (appState.lockedCuisineCategory && pickedCategory && pickedCategory !== appState.lockedCuisineCategory) {
       showToast(
-        `You can only pick cuisines from ONE tree. You started with ${appState.lockedCuisineCategory}.`,
+        `You already selected from ${appState.lockedCuisineCategory}. Remove them first to pick from ${pickedCategory}.`,
         "warning",
       );
       return;
     }
 
     if (appState.selectedCuisines.length < appState.maxCuisines) {
-      appState.selectedCuisines.push(cuisine);
-      showToast(`${cuisine.name} added`, "success");
-
-      // Lock on first add
-      if (!appState.lockedCuisineCategory) {
-        appState.lockedCuisineCategory = cuisine.category;
+      // lock category on first selection
+      if (!appState.lockedCuisineCategory && pickedCategory) {
+        appState.lockedCuisineCategory = pickedCategory;
       }
+
+      appState.selectedCuisines.push(cuisine);
+      showToast(`${cuisine.name} (${cuisine.id}) added`, "success");
     } else {
       showToast(
         `Maximum ${appState.maxCuisines} cuisines can be selected`,
@@ -232,7 +224,7 @@ function toggleCuisine(cuisine) {
     }
   }
 
-  // Reset tags whenever cuisines change
+  // When cuisines change, tags reset (because related tags change)
   appState.selectedTags = [];
   saveState();
   renderUI();
@@ -265,48 +257,39 @@ function filterBySearch(searchTerm) {
   renderCuisines();
   renderTags();
 }
+function normalizeTagName(s) {
+  return String(s || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-// Get related tags
 function getRelatedTags() {
-  if (appState.selectedCuisines.length === 0) return [];
+  if (!appState.selectedCuisines.length) return [];
 
-  // Build a fast lookup from the master tags list (name -> tag object)
-  const byName = new Map();
-  (cuisineTagData.allTags || []).forEach((t) => {
-    if (t && t.name) byName.set(String(t.name).toLowerCase(), t);
-  });
+  const relatedTagIds = new Set();
 
-  const tagMap = new Map();
+  appState.selectedCuisines.forEach((c) => {
+    if (Array.isArray(c.foodTagIds) && c.foodTagIds.length) {
+      c.foodTagIds.forEach((id) => relatedTagIds.add(id));
+      return;
+    }
 
-  appState.selectedCuisines.forEach((cuisine) => {
-    (cuisine.foodTags || []).forEach((rawName) => {
-      const tagName = String(rawName).trim();
-      const key = tagName.toLowerCase();
-
-      if (tagMap.has(key)) return;
-
-      const master = byName.get(key);
-
-      if (master) {
-        // Use the real ID + category from the sheet/data
-        tagMap.set(key, {
-          id: master.id,
-          name: master.name,
-          category: master.category || "Other",
-        });
-      } else {
-        // Fallback: create a stable-ish ID (so it doesn’t change every refresh)
-        const stableId = `custom_${key.replace(/[^a-z0-9]+/g, "_")}`;
-        tagMap.set(key, {
-          id: stableId,
-          name: tagName,
-          category: "Other",
-        });
-      }
+    (c.foodTags || []).forEach((name) => {
+      const found = cuisineTagData.allTags.find(
+        (t) => String(t.name || "").toLowerCase().trim() === String(name || "").toLowerCase().trim()
+      );
+      if (found) relatedTagIds.add(found.id);
     });
   });
 
-  return Array.from(tagMap.values());
+    // Always include 'Others' (non-geographical cuisine tags) under Tags
+  cuisineTagData.allTags.forEach((t) => {
+    if (String(t.category || "").toLowerCase() === "others") relatedTagIds.add(t.id);
+  });
+
+  return cuisineTagData.allTags.filter((t) => relatedTagIds.has(t.id));
+}
 }
 
 // Render tags
@@ -331,7 +314,7 @@ function renderTags() {
   relatedTags.forEach((tag) => {
     const btn = document.createElement("button");
     btn.className = "btn tag-btn";
-    btn.textContent = `${tag.name} (#${tag.id}) ${tag.category ? `[${tag.category}]` : ""}`;
+    btn.textContent = `${tag.name} ${tag.category ? `[${tag.category}]` : ""}`;
     btn.dataset.id = tag.id;
 
     if (appState.selectedTags.find((t) => t.id === tag.id)) {
@@ -383,7 +366,7 @@ function updateSummary() {
       ? appState.selectedCuisines
           .map(
             (c) =>
-              `<li><span class="badge">${c.category}</span> ${c.name} <span class="muted">#${c.id}</span></li>`,
+              `<li><span class="badge">${c.category}</span> ${c.name}</li>`,
           )
           .join("")
       : '<li class="empty">No cuisines selected</li>';
@@ -394,7 +377,7 @@ function updateSummary() {
       ? appState.selectedTags
           .map(
             (t) =>
-              `<li><span class="badge">${t.category}</span> ${t.name} <span class="muted">#${t.id}</span></li>`,
+              `<li><span class="badge">${t.category}</span> ${t.name}</li>`,
           )
           .join("")
       : '<li class="empty">No tags selected</li>';
@@ -412,10 +395,10 @@ function updateJsonPreview() {
 
   // Cuisines section
   csv += "SELECTED CUISINES\n";
-  csv += "ID,Name,Category,Region\n";
+  csv += "Name,Category,Region\n";
   if (appState.selectedCuisines.length > 0) {
     appState.selectedCuisines.forEach((cuisine) => {
-      csv += `"${cuisine.id}","${cuisine.name}","${cuisine.category}","${cuisine.region || ""}"\n`;
+      csv += `"${cuisine.name}","${cuisine.category}","${cuisine.region || ""}"\n`;
     });
   } else {
     csv += "No cuisines selected\n";
@@ -425,10 +408,10 @@ function updateJsonPreview() {
 
   // Tags section
   csv += "SELECTED TAGS\n";
-  csv += "ID,Name,Category\n";
+  csv += "Name,Category\n";
   if (appState.selectedTags.length > 0) {
     appState.selectedTags.forEach((tag) => {
-      csv += `"${tag.id}","${tag.name}","${tag.category || ""}"\n`;
+      csv += `"${tag.name}","${tag.category || ""}"\n`;
     });
   } else {
     csv += "No tags selected\n";
@@ -491,7 +474,7 @@ function switchTab(tabName) {
   const titles = {
     selector: {
       title: "Cuisine & Tag Selector",
-      subtitle: "Select up to 2 cuisines to view related tags",
+      subtitle: "Select up to 3 cuisines to view related tags",
     },
     preview: {
       title: "Selection Preview",
@@ -518,10 +501,10 @@ function exportData() {
 
   // Cuisines section
   csv += "SELECTED CUISINES\n";
-  csv += "ID,Name,Category,Region\n";
+  csv += "Name,Category,Region\n";
   if (appState.selectedCuisines.length > 0) {
     appState.selectedCuisines.forEach((cuisine) => {
-      csv += `"${cuisine.id}","${cuisine.name}","${cuisine.category}","${cuisine.region || ""}"\n`;
+      csv += `"${cuisine.name}","${cuisine.category}","${cuisine.region || ""}"\n`;
     });
   } else {
     csv += "No cuisines selected\n";
@@ -531,10 +514,10 @@ function exportData() {
 
   // Tags section
   csv += "SELECTED TAGS\n";
-  csv += "ID,Name,Category,Count\n";
+  csv += "Name,Category,Count\n";
   if (appState.selectedTags.length > 0) {
     appState.selectedTags.forEach((tag) => {
-      csv += `"${tag.id}","${tag.name}","${tag.category || ""}",1\n`;
+      csv += `"${tag.name}","${tag.category || ""}",1\n`;
     });
   } else {
     csv += "No tags selected\n";
@@ -591,7 +574,6 @@ function copyJsonToClipboard() {
 function clearAllSelections() {
   appState.selectedCuisines = [];
   appState.selectedTags = [];
-  appState.lockedCuisineCategory = null;
   saveState();
   renderUI();
   showToast("All selections cleared", "info");
@@ -609,34 +591,20 @@ function loadStateFromStorage() {
   if (saved) {
     const loaded = JSON.parse(saved);
     // Hardcode selection limits (no longer user-editable)
-    appState.maxCuisines = 2;
+    appState.maxCuisines = 3;
     appState.maxTags = 6;
     appState.autoSave = loaded.autoSave !== false;
     appState.showCategories = loaded.showCategories !== false;
     appState.darkMode = loaded.darkMode || false;
     appState.notes = loaded.notes || "";
-
-    appState.selectedCuisines = (loaded.selectedCuisines || [])
-      .map((c) => {
-        // Prefer match by ID, but fallback to name (in case IDs changed)
-        const byId = cuisineTagData.cuisines.find((x) => x.id === c.id);
-        if (byId) return byId;
-        if (c.name) {
-          const byName = cuisineTagData.cuisines.find(
-            (x) => String(x.name).toLowerCase() === String(c.name).toLowerCase(),
-          );
-          if (byName) return byName;
-        }
-        return null;
-      })
-      .filter(Boolean);
-
-    // Recompute the locked tree from the current selection
-    appState.lockedCuisineCategory =
-      appState.selectedCuisines.length > 0 ? appState.selectedCuisines[0].category : null;
-
-    appState.selectedTags = (loaded.selectedTags || []).filter((t) =>
-      cuisineTagData.allTags.find((x) => x.id === t.id),
+    appState.selectedCuisines = (loaded.selectedCuisines || []).filter((c) =>
+      cuisineTagData.cuisines.find((x) => x.id === c.id),
+    );
+    appState.selectedTags = (loaded.selectedTags || []).filter((t) => {
+  if (String(t.id).startsWith("custom:")) return true;
+  return cuisineTagData.allTags.find((x) => x.id === t.id);
+    appState.lockedCuisineCategory = loaded.lockedCuisineCategory || (appState.selectedCuisines[0]?.category ?? null);
+});
     );
   }
 
@@ -659,15 +627,7 @@ function showToast(message, type = "info") {
   const container = document.getElementById("toastContainer");
   const toast = document.createElement("div");
   toast.className = `toast toast-${type}`;
-  toast.innerHTML = `<i class="fas fa-${
-    type === "success"
-      ? "check"
-      : type === "danger"
-        ? "times"
-        : type === "warning"
-          ? "exclamation"
-          : "info"
-  }-circle"></i> ${message}`;
+  toast.innerHTML = `<i class="fas fa-${type === "success" ? "check" : type === "danger" ? "times" : type === "warning" ? "exclamation" : "info"}-circle"></i> ${message}`;
   container.appendChild(toast);
 
   setTimeout(() => {
@@ -679,5 +639,4 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
-
 
