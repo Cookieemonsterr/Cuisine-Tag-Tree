@@ -1165,6 +1165,126 @@ const cuisineTagData = {
     { id: 39, name: "Cakes", category: "Desserts" },
     { id: 40, name: "Bakery", category: "Food" },
   ],
-};
+(() => {
+  const cuisineIdByName = {
+    "algerian": 1264,
+    "american": 33,
+    "bengali": 67,
+    "british": 40,
+    "chettinad": 70,
+    "chinese": 1,
+    "egyptian": 39,
+    "emirati": 47,
+    "filipino": 41,
+    "french": 10,
+    "german": 13,
+    "greek": 21,
+    "gujarati": 55,
+    "hyderabadi": 66,
+    "indo-chinese (limited used)": 262,
+    "indonesian": 31,
+    "italian": 15,
+    "japanese": 9,
+    "jordanian": 46,
+    "karahi": 9,
+    "kerala": 87,
+    "korean": 28,
+    "kuwaiti": 57,
+    "lebanese": 11,
+    "maharashtrian": 69,
+    "malaysian": 27,
+    "moroccan": 14,
+    "nepali": 77,
+    "north indian": 19,
+    "palestinian": 1332,
+    "pelmeni": 332,
+    "portuguese": 38,
+    "rajasthani": 65,
+    "russian sushi": 6,
+    "saudi": 207,
+    "scandinavian": 20,
+    "singaporean": 71,
+    "south indian": 79,
+    "spanish": 17,
+    "sri lankan": 78,
+    "syrian": 44,
+    "sweets": 24,
+    "tacos": 42,
+    "thai": 30,
+    "turkish": 22,
+    "vietnamese": 26
+  };
+
+  cuisineTagData.cuisines.forEach((c) => {
+    const key = String(c.name || "").toLowerCase().trim();
+    if (cuisineIdByName[key]) c.id = cuisineIdByName[key];
+  });
+
+  const othersCuisineId = 9999;
+  const othersFoodTags = [
+    "Soups","Salads","Smoothies","Juices","Sweets","Sandwiches","Ice Cream","Chicken",
+    "Coffee","Desserts","Fried Chicken","Wraps","Dosa","Tea","Steak","Pie","Kids","Burger",
+    "Fish","Wings","Pizza","Pasta","Crepes","Hot Dog","Street food","Bakery & Confectionery",
+    "Cakes","cafe","Donuts","Shakes","Seafood","Sandwiches  & wraps","Cookies","fast food",
+    "Pancakes","Waffles","Bagels"
+  ];
+
+  if (!cuisineTagData.cuisines.find((c) => String(c.name).toLowerCase() === "others")) {
+    cuisineTagData.cuisines.push({
+      id: othersCuisineId,
+      name: "Others",
+      category: "Others",
+      region: "",
+      foodTags: othersFoodTags,
+      subpageTags: [],
+    });
+  }
+  const nonGeoTags = [
+    { id: 24, name: "Seafood", category: "Others" },
+    { id: 35, name: "cafe", category: "Others" },
+    { id: 36, name: "fast food", category: "Others" },
+    { id: 45, name: "Sandwiches  & wraps", category: "Others" },
+    { id: 88, name: "Street food", category: "Others" },
+    { id: 97, name: "Biryani", category: "Others" },
+    { id: 102, name: "Juices", category: "Others" },
+    { id: 109, name: "Steak", category: "Others" },
+    { id: 200, name: "Waffles", category: "Others" },
+    { id: 201, name: "Cookies", category: "Others" },
+    { id: 248, name: "Ice Cream", category: "Others" },
+    { id: 313, name: "Pizza", category: "Others" },
+    { id: 331, name: "Smoothies", category: "Others" },
+    { id: 346, name: "Fried Chicken", category: "Others" },
+    { id: 348, name: "Sweets", category: "Others" },
+    { id: 394, name: "Fish", category: "Others" },
+    { id: 401, name: "Tea", category: "Others" },
+    { id: 438, name: "Shakes", category: "Others" },
+    { id: 470, name: "Wraps", category: "Others" },
+    { id: 507, name: "Coffee", category: "Others" },
+    { id: 508, name: "Sandwiches", category: "Others" },
+    { id: 665, name: "Salads", category: "Others" },
+    { id: 687, name: "Bakery & Confectionery", category: "Others" },
+    { id: 761, name: "Donuts", category: "Others" },
+    { id: 765, name: "Cakes", category: "Others" },
+    { id: 777, name: "Chicken", category: "Others" },
+    { id: 780, name: "Crepes", category: "Others" },
+    { id: 786, name: "Hot Dog", category: "Others" },
+    { id: 789, name: "Kids", category: "Others" },
+    { id: 794, name: "Pasta", category: "Others" },
+    { id: 796, name: "Pie", category: "Others" },
+    { id: 802, name: "Soups", category: "Others" },
+    { id: 811, name: "Wings", category: "Others" },
+    { id: 844, name: "Burger", category: "Others" },
+    { id: 1906, name: "Dosa", category: "Others" },
+    { id: 1907, name: "Pancakes", category: "Others" },
+    { id: 1908, name: "Bagels", category: "Others" },
+  ];
+
+  const existingIds = new Set((cuisineTagData.allTags || []).map((t) => t && t.id));
+  nonGeoTags.forEach((t) => {
+    if (!existingIds.has(t.id)) cuisineTagData.allTags.push(t);
+  });
+})();
+
+
 
 
