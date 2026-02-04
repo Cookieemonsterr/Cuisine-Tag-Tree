@@ -609,7 +609,7 @@ function loadStateFromStorage() {
   if (saved) {
     const loaded = JSON.parse(saved);
     // Hardcode selection limits (no longer user-editable)
-    appState.maxCuisines = 3;
+    appState.maxCuisines = 2;
     appState.maxTags = 6;
     appState.autoSave = loaded.autoSave !== false;
     appState.showCategories = loaded.showCategories !== false;
@@ -679,4 +679,5 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
 
