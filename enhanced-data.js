@@ -647,7 +647,6 @@ const cuisineTagData = {
       ],
       subpageTags: [],
     },
-    {},
     {
       id: 37,
       name: "Healthy",
@@ -734,7 +733,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 42,
+      id: 41,
       name: "Tacos",
       category: "Mexican",
       region: "",
@@ -742,7 +741,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 41,
+      id: 42,
       name: "Pelmeni",
       category: "Russian",
       region: "",
@@ -758,7 +757,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 42,
+      id: 43,
       name: "Borscht",
       category: "Russian",
       region: "",
@@ -774,7 +773,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 43,
+      id: 44,
       name: "Russian Sushi",
       category: "Russian",
       region: "",
@@ -790,7 +789,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 44,
+      id: 45,
       name: "French",
       category: "European",
       region: "",
@@ -808,7 +807,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 45,
+      id: 46,
       name: "Greek",
       category: "European",
       region: "",
@@ -827,7 +826,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 46,
+      id: 47,
       name: "Portuguese",
       category: "European",
       region: "",
@@ -844,7 +843,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 47,
+      id: 48,
       name: "German",
       category: "European",
       region: "",
@@ -862,7 +861,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 48,
+      id: 49,
       name: "Spanish",
       category: "European",
       region: "",
@@ -879,7 +878,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 49,
+      id: 50,
       name: "British",
       category: "European",
       region: "",
@@ -897,7 +896,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 50,
+      id: 51,
       name: "Scandinavian",
       category: "European",
       region: "",
@@ -913,7 +912,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 51,
+      id: 52,
       name: "Italian",
       category: "European",
       region: "",
@@ -931,7 +930,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 52,
+      id: 53,
       name: "Donuts",
       category: "American",
       region: "",
@@ -947,7 +946,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 53,
+      id: 54,
       name: "Burger",
       category: "American",
       region: "",
@@ -963,7 +962,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 54,
+      id: 55,
       name: "Brisket",
       category: "American",
       region: "",
@@ -1167,4 +1166,5 @@ const cuisineTagData = {
     { id: 40, name: "Bakery", category: "Food" },
   ],
 };
+
 
