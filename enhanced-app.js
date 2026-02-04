@@ -1,1214 +1,622 @@
-const cuisineTagData = {
-  cuisines: [
-    {
-      id: 37,
-      name: "Lebanese",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Pie", "Mezze", "Manakish", "Kebab", "BBQ & Grill", "Hummus"],
-      subpageTags: [],
-    },
-    {
-      id: 59,
-      name: "Syrian",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Foul", "Fatteh", "Kebab", "Tawooq", "Falafel", "Hummus"],
-      subpageTags: [],
-    },
-    {
-      id: 1264,
-      name: "Palestinian",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Fatteh", "Falafel", "Foul", "Tawooq", "Hummus"],
-      subpageTags: [],
-    },
-    {
-      id: 1265,
-      name: "Jordanian",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Mansaf (Jordanian)", "Kunafa"],
-      subpageTags: [],
-    },
-    {
-      id: 1266,
-      name: "Saudi",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Kabsa (Saudi)", "Mandi"],
-      subpageTags: [],
-    },
-    {
-      id: 1267,
-      name: "Emirati",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Lugaimat (Emirati)", "Harees (Emirati)"],
-      subpageTags: [],
-    },
-    {
-      id: 1268,
-      name: "Yemeni",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Biryani"],
-      subpageTags: [],
-    },
-    {
-      id: 1269,
-      name: "Kuwaiti",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Rice"],
-      subpageTags: [],
-    },
-    {
-      id: 1270,
-      name: "Egyptian",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Koshary (Egyptian)", "Mutabbaq"],
-      subpageTags: [],
-    },
-    {
-      id: 1271,
-      name: "Algerian",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Rice", "Meat Dish", "Chicken Dishes", "Tajin"],
-      subpageTags: [],
-    },
-    {
-      id: 1272,
-      name: "Moroccan",
-      category: "Arabic",
-      region: "",
-      foodTags: ["Tajin"],
-      subpageTags: [],
-    },
-    {
-      id: 1273,
-      name: "Turkish",
-      category: "Turkish",
-      region: "",
-      foodTags: ["Doner (Turkish)", "BBQ & Grill", "Kebab"],
-      subpageTags: [],
-    },
-    {
-      id: 1,
-      name: "Japanese",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Sushi",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-      ],
-      subpageTags: [],
-    },
-
-    {
-      id: 2,
-      name: "Vietnamese",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 3,
-      name: "Thai",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 4,
-      name: "Malaysian",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 5,
-      name: "Indonesian",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-        "Nasi Goreng (Indonesian)",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 6,
-      name: "Korean",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-        "Bibimbap (Korean)",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 7,
-      name: "Filipino",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 8,
-      name: "Chinese",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 9,
-      name: "Singaporean",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 10,
-      name: "Nepali",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 11,
-      name: "Sri Lankan",
-      category: "Asian",
-      region: "",
-      foodTags: [
-        "Dimsum",
-        "Sinigang",
-        "Noodles",
-        "Ramen",
-        "Bubble Tea",
-        "Pad Thai",
-        "Pho",
-        "Noodles & Ramen",
-        "Dumplings",
-        "Tapsilog",
-        "Pancit",
-        "Seafood",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 12,
-      name: "Karahi",
-      category: "Pakistani",
-      region: "",
-      foodTags: [
-        "Handi",
-        "Biryani",
-        "Desi",
-        "Chaat",
-        "BBQ & Grill",
-        "Kebab",
-        "Paratha",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Meat Dish",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 13,
-      name: "North Indian",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 14,
-      name: "Rajasthani",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 15,
-      name: "Bengali",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 16,
-      name: "Hyderabadi",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 17,
-      name: "South Indian",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Meals",
-        "Seafood",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 18,
-      name: "Kerala",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 19,
-      name: "Gujarati",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 20,
-      name: "Goan",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 21,
-      name: "Indo-Chinese (Limited used)",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Meals",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 22,
-      name: "Maharashtrian",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Meals",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 23,
-      name: "Chettinad",
-      category: "Indian",
-      region: "",
-      foodTags: [
-        "Kebab",
-        "Kulfi",
-        "Chaat",
-        "Momos",
-        "Biryani",
-        "Paratha",
-        "BBQ & Grill",
-        "Meat Dish",
-        "Chicken Dishes",
-        "Curry Dishes",
-        "Gujarati",
-        "Pure Veg",
-        "Thali",
-        "Vegetarian",
-        "Dosa",
-        "Desi",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 26,
-      name: "Sweets",
-      category: "Desserts",
-      region: "",
-      foodTags: [
-        "Crepes",
-        "Shakes",
-        "Ice Cream",
-        "Frozen Yogurt",
-        "Kulfi",
-        "Chocolates",
-        "Donuts",
-        "Cookies",
-        "Cakes",
-        "Waffles",
-      ],
-      subpageTags: [],
-    },
-    {},
-    {
-      id: 34,
-      name: "Healthy",
-      category: "Healthy",
-      region: "",
-      foodTags: [
-        "Desserts",
-        "Soup",
-        "Juices",
-        "Bowls",
-        "Breakfast",
-        "Poke",
-        "Protein Shake",
-        "Poke",
-        "Vegetarian",
-        "Smoothies",
-        "Salads",
-        "Vegan",
-        "Keto",
-        "Gluten-free",
-        "Acai",
-        "Sandwiches and wraps",
-        "Rolls",
-        "Healthy Meals",
-        "Healthy Salads",
-        "Healthy Sandwiches",
-        "Bagels",
-        "Protein Balls",
-        "Vegetarian",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 36,
-      name: "Cafe",
-      category: "Cafe",
-      region: "",
-      foodTags: [
-        "Breakfast",
-        "Coffee",
-        "Sandwiches",
-        "Hot Beverages",
-        "Bakery",
-        "Sandwiches and wraps",
-        "Sweets",
-        "Juices",
-        "Wraps",
-        "Croissants",
-        "Bakery & Confectionery",
-        "Cocktails",
-        "Sweets",
-        "Juices",
-        "Smoothies",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 38,
-      name: "Cafeteria",
-      category: "Cafeteria",
-      region: "",
-      foodTags: [
-        "Cocktails",
-        "Wraps",
-        "Sandwiches",
-        "Juices",
-        "Sandwiches and wraps",
-        "Smoothies",
-        "Snacks",
-        "Street food",
-        "Vitality Juices",
-        "Breakfast",
-        "Paratha (if the Cafeteria is Indian cuisine)",
-        "Milk Shake",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 41,
-      name: "Burritos",
-      category: "Mexican",
-      region: "",
-      foodTags: ["Quesadilla", "Nachos"],
-      subpageTags: [""],
-    },
-    {
-      id: 42,
-      name: "Tacos",
-      category: "Mexican",
-      region: "",
-      foodTags: ["Quesadilla", "Nachos"],
-      subpageTags: [""],
-    },
-    {
-      id: 43,
-      name: "Pelmeni",
-      category: "Russian",
-      region: "",
-      foodTags: [
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-      ],
-      subpageTags: [""],
-    },
-    {
-      id: 44,
-      name: "Borscht",
-      category: "Russian",
-      region: "",
-      foodTags: [
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-      ],
-      subpageTags: [""],
-    },
-    {
-      id: 44,
-      name: "Russian Sushi",
-      category: "Russian",
-      region: "",
-      foodTags: [
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-      ],
-      subpageTags: [""],
-    },
-    {
-      id: 45,
-      name: "French",
-      category: "European",
-      region: "",
-      foodTags: [
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-        "Croissants",
-        "Bakery & Confectionery",
-      ],
-      subpageTags: [""],
-    },
-    {
-      id: 46,
-      name: "Greek",
-      category: "European",
-      region: "",
-      foodTags: [
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-        "Gyros",
-        "Wraps",
-        "Salads",
-      ],
-      subpageTags: [""],
-    },
-    {
-      id: 46,
-      name: "Portuguese",
-      category: "European",
-      region: "",
-      foodTags: [
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-        "Chicken",
-      ],
-      subpageTags: [""],
-    },
-    {
-      id: 47,
-      name: "German",
-      category: "European",
-      region: "",
-      foodTags: [
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-        "Doner",
-        "Pretzel",
-      ],
-      subpageTags: [""],
-    },
-    {
-      id: 48,
-      name: "Spanish",
-      category: "European",
-      region: "",
-      foodTags: [
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-        "Tortilla",
-      ],
-      subpageTags: [""],
-    },
-    {
-      id: 49,
-      name: "British",
-      category: "European",
-      region: "",
-      foodTags: [
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-        "Fish & Chips",
-        "Pie",
-      ],
-      subpageTags: [""],
-    },
-    {
-      id: 50,
-      name: "Scandinavian",
-      category: "European",
-      region: "",
-      foodTags: [
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-      ],
-      subpageTags: [""],
-    },
-    {
-      id: 51,
-      name: "Italian",
-      category: "European",
-      region: "",
-      foodTags: [
-        "Pizza",
-        "Pasta",
-        "Seafood",
-        "Breakfast",
-        "BBQ & Grill",
-        "Desserts",
-        "Vegetarian",
-        "Bakery",
-        "Pastries",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 52,
-      name: "Donuts",
-      category: "American",
-      region: "",
-      foodTags: [
-        "Fast Food",
-        "Nachos",
-        "Waffle Fries",
-        "Burger",
-        "Hot Dog",
-        "Wings",
-        "Steak",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 53,
-      name: "Burger",
-      category: "American",
-      region: "",
-      foodTags: [
-        "Fast Food",
-        "Nachos",
-        "Waffle Fries",
-        "Burger",
-        "Hot Dog",
-        "Wings",
-        "Steak",
-      ],
-      subpageTags: [],
-    },
-    {
-      id: 53,
-      name: "Brisket",
-      category: "American",
-      region: "",
-      foodTags: [
-        "Fast Food",
-        "Nachos",
-        "Waffle Fries",
-        "Burger",
-        "Hot Dog",
-        "Wings",
-        "Steak",
-      ],
-      subpageTags: [],
-    },
-  ],
-
-  // All tags from active_tags.csv
-  allTags: [
-    {
-      id: 1415,
-      name: "Indo-Chinese Moods Carousel Asian Subpage",
-      category: "Asian",
-    },
-    { id: 1222, name: "0.1JOD DF", category: "Deals" },
-    { id: 1248, name: "1 SAR", category: "Deals" },
-    { id: 1828, name: "11:11 Sale", category: "Deals" },
-    { id: 1857, name: "1st Weekend Dec", category: "Seasonal" },
-    { id: 1518, name: "2024 Time Out award winners", category: "Awards" },
-    { id: 1106, name: "20biryani", category: "Food" },
-    { id: 1267, name: "25% Off", category: "Deals" },
-    { id: 1336, name: "3 JODs", category: "Deals" },
-    { id: 1237, name: "30% off BEST SELLER", category: "Deals" },
-    { id: 1765, name: "3JODST1", category: "Deals" },
-    { id: 1552, name: "50 OFF DESSERTS", category: "Deals" },
-    { id: 366, name: "50% Off", category: "Deals" },
-    { id: 757, name: "5SAR", category: "Deals" },
-    { id: 1277, name: "5SAR - Breakfast", category: "Deals" },
-    { id: 1278, name: "5SAR - Desserts", category: "Deals" },
-    { id: 812, name: "Afghan", category: "Cuisine" },
-    { id: 813, name: "African", category: "Cuisine" },
-    { id: 1609, name: "American brands jo", category: "Brands" },
-    { id: 815, name: "Asian", category: "Cuisine" },
-    {
-      id: 1390,
-      name: "Arabic Sweets Desserts Tile Subpage",
-      category: "Desserts",
-    },
-    { id: 596, name: "Arabic", category: "Cuisine" },
-    { id: 426, name: "Arabic Coffee", category: "Beverages" },
-    { id: 907, name: "Arabic Sweets", category: "Desserts" },
-    { id: 1548, name: "Atayef", category: "Desserts" },
-    { id: 1437, name: "AUH all resto", category: "Location" },
-    { id: 989, name: "Awesome Deals", category: "Deals" },
-    { id: 1174, name: "Bagels", category: "Breakfast" },
-    { id: 211, name: "Bakery", category: "Food" },
-    { id: 1258, name: "Bakery", category: "Food" },
-    { id: 687, name: "Bakery & Confectionery", category: "Food" },
-    { id: 42, name: "Bakery & Confectionery", category: "Food" },
-    { id: 1467, name: "Bakery Tile Breakfast Subpage", category: "Breakfast" },
-    { id: 1491, name: "Balkan", category: "Cuisine" },
-    { id: 541, name: "BBQ & Grill", category: "Food" },
-    { id: 163, name: "Beauty & Cosmetics", category: "Other" },
-    { id: 360, name: "Beef", category: "Food" },
-    { id: 1379, name: "Beef Burger Carousel Subpage", category: "Food" },
-    { id: 97, name: "Biryani", category: "Food" },
-    { id: 1754, name: "Biryani Large Orders", category: "Food" },
-    { id: 1428, name: "Biryani Tile Indian Subpage", category: "Food" },
-    { id: 1399, name: "Boba Tile Asian Subpage", category: "Asian" },
-    { id: 685, name: "Bubble Tea", category: "Beverages" },
-    { id: 121, name: "Budget", category: "General" },
-    { id: 53, name: "Burger", category: "Food" },
-    { id: 1755, name: "Burger Large orders", category: "Food" },
-    { id: 223, name: "Burritos", category: "Food" },
-    { id: 1770, name: "Butchery & Seafood", category: "Food" },
-    { id: 1324, name: "Butter Chicken Campaign", category: "Seasonal" },
-    { id: 1569, name: "C&D Ramadan", category: "Seasonal" },
-    { id: 740, name: "Cabbage", category: "Vegetables" },
-    { id: 817, name: "Cafe", category: "Beverage" },
-    { id: 1310, name: "Caffeine Cravings", category: "Beverages" },
-    { id: 95, name: "Cakes", category: "Desserts" },
-    { id: 1391, name: "Cakes Desserts Tile Subpage", category: "Desserts" },
-    { id: 818, name: "Canadian", category: "Cuisine" },
-    { id: 300, name: "Candy", category: "Desserts" },
-    { id: 1614, name: "Careem Choice", category: "General" },
-    { id: 1612, name: "Carousel for Premium Users", category: "Premium" },
-    { id: 1722, name: "Catering", category: "Service" },
-    { id: 117, name: "Celebration", category: "Occasion" },
-    { id: 1334, name: "Celebratory Sweets", category: "Desserts" },
-    { id: 1072, name: "Chaat", category: "Food" },
-    { id: 1427, name: "Chaat Tile Indian Subpage", category: "Food" },
-    { id: 1322, name: "Cheat Day Special", category: "General" },
-    { id: 1217, name: "Cheat Meal", category: "General" },
-    { id: 113, name: "Chicken", category: "Food" },
-    { id: 1753, name: "Chicken & Wings Large Orders", category: "Food" },
-    { id: 1457, name: "Chicken & Wings Manual Carousel", category: "Food" },
-    { id: 422, name: "Chicken Dishes", category: "Food" },
-    { id: 763, name: "Chinese", category: "Cuisine" },
-    {
-      id: 1405,
-      name: "Chinese Moods Carousel Asian Subpage",
-      category: "Asian",
-    },
-    { id: 1530, name: "Chocolate Valentine Offer Card", category: "Seasonal" },
-    { id: 195, name: "Chocolates", category: "Desserts" },
-    { id: 1513, name: "Christmas", category: "Seasonal" },
-    { id: 1054, name: "Chucha Specials", category: "Deals" },
-    { id: 1443, name: "Classic Burgers Subpage", category: "Food" },
-    { id: 538, name: "Cocktails", category: "Beverages" },
-    { id: 250, name: "Coffee", category: "Beverages" },
-    { id: 1682, name: "Coffee & Desserts", category: "General" },
-    { id: 90, name: "Coffee & Sweets", category: "General" },
-    { id: 142, name: "Coffee Beans", category: "Beverages" },
-    { id: 1314, name: "Coffee Lover", category: "General" },
-    { id: 116, name: "Comfort", category: "General" },
-    {
-      id: 1527,
-      name: "Comfort Food Valentine Offer Card",
-      category: "Seasonal",
-    },
-    { id: 819, name: "Continental", category: "Cuisine" },
-    { id: 820, name: "Cookies", category: "Desserts" },
-    { id: 1388, name: "Cookies Desserts Tile Subpage", category: "Desserts" },
-    { id: 485, name: "Cosmetics", category: "Other" },
-    { id: 253, name: "Cosmetics", category: "Other" },
-    { id: 620, name: "CPlus", category: "Premium" },
-    { id: 1210, name: "CPlus Exclusive", category: "Premium" },
-    { id: 1331, name: "CPlus Mondays", category: "Deals" },
-    { id: 1218, name: "Crazy Deals", category: "Deals" },
-    { id: 1597, name: "Crazy Deals Breakfast", category: "Deals" },
-    { id: 1599, name: "Crazy Deals Dinner", category: "Deals" },
-    { id: 1598, name: "Crazy Deals Lunch", category: "Deals" },
-    { id: 99, name: "Crepes", category: "Desserts" },
-    { id: 1047, name: "Croissants", category: "Breakfast" },
-    { id: 463, name: "Curry Dishes", category: "Food" },
-    { id: 139, name: "Daily Essentials", category: "General" },
-    { id: 145, name: "Dairy & Eggs", category: "Food" },
-    { id: 995, name: "Dairy Free", category: "Dietary" },
-    { id: 1191, name: "Delivery Delay is Expected", category: "Info" },
-    { id: 198, name: "Desi", category: "Food" },
-    { id: 1558, name: "Desi Style Iftar", category: "Seasonal" },
-    { id: 1559, name: "Desi Style Suhoor", category: "Seasonal" },
-    { id: 1564, name: "Desi Sweets", category: "Desserts" },
-    { id: 1357, name: "Dessert Brand Logos Subpage", category: "Desserts" },
-    { id: 212, name: "Detox", category: "Healthy" },
-    { id: 1142, name: "Dimsum", category: "Food" },
-    { id: 1396, name: "Dimsums Tile Asian Subpage", category: "Asian" },
-    { id: 1343, name: "Dinner for 2", category: "Occasion" },
-    { id: 621, name: "Discounts", category: "Deals" },
-    { id: 1231, name: "Diwali", category: "Seasonal" },
-    { id: 821, name: "Doner", category: "Food" },
-    { id: 156, name: "Donuts", category: "Desserts" },
-    { id: 1385, name: "Donuts Desserts Tile Subpage", category: "Desserts" },
-    { id: 1169, name: "Dosa", category: "Food" },
-    { id: 1313, name: "Drinks Campaign", category: "Beverages" },
-    { id: 1312, name: "Dummy Tag for Catalog", category: "Internal" },
-    { id: 1147, name: "Dumpling", category: "Food" },
-    { id: 1281, name: "Dunkin Donuts", category: "Brands" },
-  ],
-
-  // Subpage tags
-  subpageTags: [
-    { id: 1, name: "Grills", category: "Food" },
-    { id: 2, name: "Shawarma", category: "Food" },
-    { id: 3, name: "Manakish", category: "Food" },
-    { id: 4, name: "Falafel", category: "Food" },
-    { id: 5, name: "Kebab", category: "Food" },
-    { id: 6, name: "Sushi", category: "Food" },
-    { id: 7, name: "Ramen", category: "Food" },
-    { id: 8, name: "Dimsum", category: "Food" },
-    { id: 9, name: "Pad Thai", category: "Food" },
-    { id: 10, name: "Biryani", category: "Food" },
-    { id: 11, name: "Chaat", category: "Food" },
-    { id: 12, name: "Pizza", category: "Food" },
-    { id: 13, name: "Pasta", category: "Food" },
-    { id: 14, name: "Burger", category: "Food" },
-    { id: 15, name: "BBQ & Grill", category: "Food" },
-    { id: 16, name: "Breakfast", category: "Food" },
-    { id: 17, name: "Tacos", category: "Food" },
-    { id: 18, name: "Burritos", category: "Food" },
-    { id: 19, name: "Kunafa", category: "Desserts" },
-    { id: 20, name: "Mansaf", category: "Food" },
-    { id: 21, name: "Dosa", category: "Food" },
-    { id: 22, name: "Idli", category: "Food" },
-    { id: 23, name: "Coffee", category: "Beverages" },
-    { id: 24, name: "Desserts", category: "Desserts" },
-    { id: 25, name: "Wings", category: "Food" },
-    { id: 26, name: "Fried Chicken", category: "Food" },
-    { id: 27, name: "Fish & Chips", category: "Food" },
-    { id: 28, name: "Steak", category: "Food" },
-    { id: 29, name: "Salads", category: "Food" },
-    { id: 30, name: "Vegetarian", category: "Dietary" },
-    { id: 31, name: "Seafood", category: "Food" },
-    { id: 32, name: "Poke", category: "Food" },
-    { id: 33, name: "Bowls", category: "Food" },
-    { id: 34, name: "Wraps", category: "Food" },
-    { id: 35, name: "Sandwiches", category: "Food" },
-    { id: 36, name: "Smoothies", category: "Beverages" },
-    { id: 37, name: "Acai", category: "Desserts" },
-    { id: 38, name: "Donuts", category: "Desserts" },
-    { id: 39, name: "Cakes", category: "Desserts" },
-    { id: 40, name: "Bakery", category: "Food" },
-  ],
-
-  // Subpage tags
-  subpageTags: [
-    { id: 1, name: "Grills", category: "Subpage" },
-    { id: 2, name: "Shawarma", category: "Subpage" },
-    { id: 3, name: "Manakish", category: "Subpage" },
-    { id: 4, name: "Falafel", category: "Subpage" },
-    { id: 5, name: "Kebab", category: "Subpage" },
-    { id: 6, name: "Sushi", category: "Subpage" },
-    { id: 7, name: "Ramen", category: "Subpage" },
-    { id: 8, name: "Dimsum", category: "Subpage" },
-    { id: 9, name: "Pad Thai", category: "Subpage" },
-    { id: 10, name: "Biryani", category: "Subpage" },
-    { id: 11, name: "Chaat", category: "Subpage" },
-    { id: 12, name: "Pizza", category: "Subpage" },
-    { id: 13, name: "Pasta", category: "Subpage" },
-    { id: 14, name: "Burger", category: "Subpage" },
-    { id: 15, name: "BBQ & Grill", category: "Subpage" },
-    { id: 16, name: "Breakfast", category: "Subpage" },
-    { id: 17, name: "Tacos", category: "Subpage" },
-    { id: 18, name: "Burritos", category: "Subpage" },
-    { id: 19, name: "Kunafa", category: "Subpage" },
-    { id: 20, name: "Mansaf", category: "Subpage" },
-    { id: 21, name: "Dosa", category: "Subpage" },
-    { id: 22, name: "Idli", category: "Subpage" },
-    { id: 23, name: "Coffee", category: "Subpage" },
-    { id: 24, name: "Desserts", category: "Subpage" },
-    { id: 25, name: "Wings", category: "Subpage" },
-    { id: 26, name: "Fried Chicken", category: "Subpage" },
-    { id: 27, name: "Fish & Chips", category: "Subpage" },
-    { id: 28, name: "Steak", category: "Subpage" },
-    { id: 29, name: "Salads", category: "Subpage" },
-    { id: 30, name: "Vegetarian", category: "Subpage" },
-    { id: 31, name: "Seafood", category: "Subpage" },
-    { id: 32, name: "Poke", category: "Subpage" },
-    { id: 33, name: "Bowls", category: "Subpage" },
-    { id: 34, name: "Wraps", category: "Subpage" },
-    { id: 35, name: "Sandwiches", category: "Subpage" },
-    { id: 36, name: "Smoothies", category: "Subpage" },
-    { id: 37, name: "Acai", category: "Subpage" },
-    { id: 38, name: "Donuts", category: "Subpage" },
-    { id: 39, name: "Cakes", category: "Subpage" },
-    { id: 40, name: "Bakery", category: "Subpage" },
-  ],
+// Enhanced state management with local storage
+const appState = {
+  selectedCuisines: [],
+  selectedTags: [],
+  notes: "",
+  maxCuisines: 3,
+  maxTags: 6,
+  autoSave: true,
+  showCategories: true,
+  darkMode: false,
+  currentFilter: "all",
 };
+
+// Initialize app
+document.addEventListener("DOMContentLoaded", () => {
+  initializeApp();
+});
+
+function initializeApp() {
+  loadStateFromStorage();
+  setupEventListeners();
+  renderUI();
+  updateAllCounters();
+}
+
+// Setup all event listeners
+function setupEventListeners() {
+  // Tab navigation
+  document.querySelectorAll(".nav-item").forEach((btn) => {
+    btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+  });
+
+  // Cuisine filters
+  document.querySelectorAll(".filter-chip").forEach((btn) => {
+    btn.addEventListener("click", () => filterCuisines(btn.dataset.filter));
+  });
+
+  // Sidebar buttons
+  document.getElementById("exportBtn").addEventListener("click", exportData);
+  document
+    .getElementById("importBtn")
+    .addEventListener("click", () =>
+      document.getElementById("fileInput").click(),
+    );
+  document
+    .getElementById("clearBtn")
+    .addEventListener("click", clearAllSelections);
+
+  // Notes textarea
+  const notesBox = document.getElementById("notesBox");
+  if (notesBox) {
+    notesBox.addEventListener("input", (e) => {
+      appState.notes = e.target.value;
+      saveState();
+    });
+  }
+
+  // Settings
+  // Removed maxCuisines, maxTags, maxSubpageTags slider listeners
+  document.getElementById("autoSave").addEventListener("change", (e) => {
+    appState.autoSave = e.target.checked;
+    saveState();
+  });
+  document.getElementById("showCategories").addEventListener("change", (e) => {
+    appState.showCategories = e.target.checked;
+    renderCuisines();
+  });
+  document.getElementById("darkMode").addEventListener("change", (e) => {
+    appState.darkMode = e.target.checked;
+    document.body.classList.toggle("dark-mode");
+    saveState();
+  });
+
+  // Data management
+  document.getElementById("resetDataBtn").addEventListener("click", () => {
+    if (confirm("Are you sure you want to reset all data?")) {
+      clearAllSelections();
+      showToast("All data has been reset", "success");
+    }
+  });
+  document
+    .getElementById("exportDataBtn")
+    .addEventListener("click", exportData);
+
+  // File import
+  document.getElementById("fileInput").addEventListener("change", importData);
+
+  // Search
+  document.getElementById("searchInput").addEventListener("input", (e) => {
+    filterBySearch(e.target.value);
+  });
+
+  // Preview tab
+  document
+    .getElementById("copyJsonBtn")
+    .addEventListener("click", copyJsonToClipboard);
+
+  // Help modal
+  document.getElementById("helpBtn").addEventListener("click", () => {
+    document.getElementById("helpModal").style.display = "block";
+  });
+  document.querySelector(".modal-close").addEventListener("click", () => {
+    document.getElementById("helpModal").style.display = "none";
+  });
+  window.addEventListener("click", (e) => {
+    const modal = document.getElementById("helpModal");
+    if (e.target === modal) modal.style.display = "none";
+  });
+
+  // Sidebar toggle
+  document.getElementById("sidebarToggle").addEventListener("click", () => {
+    document.querySelector(".sidebar").classList.toggle("collapsed");
+  });
+}
+
+// Render all UI
+function renderUI() {
+  renderCuisines();
+  renderTags();
+  updateSummary();
+}
+
+// Render cuisines
+function renderCuisines() {
+  const grid = document.getElementById("cuisineGrid");
+  grid.innerHTML = "";
+
+  const filtered = filterCuisinesBySearch();
+
+  if (appState.showCategories) {
+    const grouped = {};
+    filtered.forEach((cuisine) => {
+      if (!grouped[cuisine.category]) grouped[cuisine.category] = [];
+      grouped[cuisine.category].push(cuisine);
+    });
+
+    for (const [category, cuisines] of Object.entries(grouped)) {
+      const categoryDiv = document.createElement("div");
+      categoryDiv.className = "category-group";
+
+      const categoryTitle = document.createElement("h3");
+      categoryTitle.className = "category-title";
+      categoryTitle.textContent = category;
+      categoryDiv.appendChild(categoryTitle);
+
+      const buttonContainer = document.createElement("div");
+      buttonContainer.className = "button-group";
+
+      cuisines.forEach((cuisine) => {
+        const btn = createCuisineButton(cuisine);
+        buttonContainer.appendChild(btn);
+      });
+
+      categoryDiv.appendChild(buttonContainer);
+      grid.appendChild(categoryDiv);
+    }
+  } else {
+    const buttonGroup = document.createElement("div");
+    buttonGroup.className = "button-group";
+
+    filtered.forEach((cuisine) => {
+      const btn = createCuisineButton(cuisine);
+      buttonGroup.appendChild(btn);
+    });
+
+    grid.appendChild(buttonGroup);
+  }
+}
+
+function createCuisineButton(cuisine) {
+  const btn = document.createElement("button");
+  btn.className = "btn cuisine-btn";
+  btn.textContent = cuisine.name;
+  btn.dataset.id = cuisine.id;
+
+  if (appState.selectedCuisines.find((c) => c.id === cuisine.id)) {
+    btn.classList.add("active");
+  }
+
+  btn.addEventListener("click", () => toggleCuisine(cuisine));
+  return btn;
+}
+
+function toggleCuisine(cuisine) {
+  const index = appState.selectedCuisines.findIndex((c) => c.id === cuisine.id);
+
+  if (index > -1) {
+    appState.selectedCuisines.splice(index, 1);
+    showToast(`${cuisine.name} removed`, "info");
+  } else {
+    if (appState.selectedCuisines.length < appState.maxCuisines) {
+      appState.selectedCuisines.push(cuisine);
+      showToast(`${cuisine.name} added`, "success");
+    } else {
+      showToast(
+        `Maximum ${appState.maxCuisines} cuisines can be selected`,
+        "warning",
+      );
+      return;
+    }
+  }
+
+  appState.selectedTags = [];
+  saveState();
+  renderUI();
+}
+
+// Filter cuisines by search
+function filterCuisinesBySearch() {
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+
+  return cuisineTagData.cuisines.filter((cuisine) => {
+    if (
+      appState.currentFilter !== "all" &&
+      cuisine.category.toLowerCase() !== appState.currentFilter
+    ) {
+      return false;
+    }
+    return cuisine.name.toLowerCase().includes(searchTerm);
+  });
+}
+
+function filterCuisines(filter) {
+  appState.currentFilter = filter;
+  document.querySelectorAll(".filter-chip").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.filter === filter);
+  });
+  renderCuisines();
+}
+
+function filterBySearch(searchTerm) {
+  renderCuisines();
+  renderTags();
+}
+
+// Get related tags
+function getRelatedTags() {
+  if (appState.selectedCuisines.length === 0) return [];
+
+  const tagMap = new Map();
+  const tagCategories = {
+    Kebab: "Food",
+    Shawarma: "Food",
+    Manakish: "Food",
+    Falafel: "Food",
+    Mezze: "Food",
+    Tabbouleh: "Food",
+    Kibbeh: "Food",
+    Hummus: "Food",
+    Masgouf: "Food",
+    Kabsa: "Food",
+    Bread: "Food",
+    "Grilled Meats": "Food",
+    "Arabic Sweets": "Desserts",
+    "Arabic Coffee": "Beverages",
+    Biryani: "Food",
+    Rice: "Food",
+    Doner: "Food",
+    Salads: "Food",
+    Couscous: "Food",
+    Tagine: "Food",
+  };
+
+  appState.selectedCuisines.forEach((cuisine) => {
+    cuisine.foodTags.forEach((tagName) => {
+      if (!tagMap.has(tagName)) {
+        tagMap.set(tagName, {
+          id: Math.random().toString(36).substr(2, 9),
+          name: tagName,
+          category: tagCategories[tagName] || "Food",
+        });
+      }
+    });
+  });
+
+  return Array.from(tagMap.values());
+}
+
+// Render tags
+function renderTags() {
+  const grid = document.getElementById("tagGrid");
+  const infoBox = document.getElementById("tagInfo");
+
+  if (appState.selectedCuisines.length === 0) {
+    grid.innerHTML = "";
+    infoBox.innerHTML =
+      '<p class="warning">👉 Select cuisines above to see related tags</p>';
+    document.getElementById("tagCount").textContent = "0";
+    return;
+  }
+
+  const cuisineNames = appState.selectedCuisines.map((c) => c.name).join(", ");
+  infoBox.innerHTML = `<p class="success">✓ Selected: <strong>${cuisineNames}</strong></p>`;
+
+  const relatedTags = getRelatedTags();
+  grid.innerHTML = "";
+
+  relatedTags.forEach((tag) => {
+    const btn = document.createElement("button");
+    btn.className = "btn tag-btn";
+    btn.textContent = `${tag.name} ${tag.category ? `[${tag.category}]` : ""}`;
+    btn.dataset.id = tag.id;
+
+    if (appState.selectedTags.find((t) => t.id === tag.id)) {
+      btn.classList.add("active");
+    }
+
+    btn.addEventListener("click", () => toggleTag(tag));
+    grid.appendChild(btn);
+  });
+
+  updateAllCounters();
+}
+
+function toggleTag(tag) {
+  const index = appState.selectedTags.findIndex((t) => t.id === tag.id);
+
+  if (index > -1) {
+    appState.selectedTags.splice(index, 1);
+    showToast(`${tag.name} removed`, "info");
+  } else {
+    if (appState.selectedTags.length < appState.maxTags) {
+      appState.selectedTags.push(tag);
+      showToast(`${tag.name} added`, "success");
+    } else {
+      showToast(`Maximum ${appState.maxTags} tags can be selected`, "warning");
+      return;
+    }
+  }
+
+  saveState();
+  renderTags();
+  updateSummary();
+}
+
+// Update counters
+function updateAllCounters() {
+  document.getElementById("cuisineCount").textContent =
+    appState.selectedCuisines.length;
+  document.getElementById("tagCount").textContent =
+    appState.selectedTags.length;
+}
+
+// Update summary
+function updateSummary() {
+  // Preview tab
+  const previewCuisines = document.getElementById("previewCuisines");
+  previewCuisines.innerHTML =
+    appState.selectedCuisines.length > 0
+      ? appState.selectedCuisines
+          .map(
+            (c) =>
+              `<li><span class="badge">${c.category}</span> ${c.name}</li>`,
+          )
+          .join("")
+      : '<li class="empty">No cuisines selected</li>';
+
+  const previewTags = document.getElementById("previewTags");
+  previewTags.innerHTML =
+    appState.selectedTags.length > 0
+      ? appState.selectedTags
+          .map(
+            (t) =>
+              `<li><span class="badge">${t.category}</span> ${t.name}</li>`,
+          )
+          .join("")
+      : '<li class="empty">No tags selected</li>';
+
+  // JSON preview
+  updateJsonPreview();
+
+  // Analytics
+  updateAnalytics();
+}
+
+function updateJsonPreview() {
+  let csv = "CAREEM - CUISINE & TAG SELECTION\n";
+  csv += `Export Date,${new Date().toLocaleString()}\n\n`;
+
+  // Cuisines section
+  csv += "SELECTED CUISINES\n";
+  csv += "Name,Category,Region\n";
+  if (appState.selectedCuisines.length > 0) {
+    appState.selectedCuisines.forEach((cuisine) => {
+      csv += `"${cuisine.name}","${cuisine.category}","${cuisine.region || ""}"\n`;
+    });
+  } else {
+    csv += "No cuisines selected\n";
+  }
+
+  csv += "\n";
+
+  // Tags section
+  csv += "SELECTED TAGS\n";
+  csv += "Name,Category\n";
+  if (appState.selectedTags.length > 0) {
+    appState.selectedTags.forEach((tag) => {
+      csv += `"${tag.name}","${tag.category || ""}"\n`;
+    });
+  } else {
+    csv += "No tags selected\n";
+  }
+
+  csv += "\n";
+
+  // Summary
+  csv += "SUMMARY\n";
+  csv += `Total Cuisines Selected,${appState.selectedCuisines.length}\n`;
+  csv += `Total Tags Selected,${appState.selectedTags.length}\n`;
+
+  document.getElementById("jsonPreview").textContent = csv;
+}
+
+function updateAnalytics() {
+  const total = appState.selectedCuisines.length + appState.selectedTags.length;
+  const maxTotal = appState.maxCuisines + appState.maxTags;
+  const completion = Math.round((total / maxTotal) * 100);
+
+  document.getElementById("statCuisines").textContent =
+    `${appState.selectedCuisines.length} / ${appState.maxCuisines}`;
+  document.getElementById("statTags").textContent =
+    `${appState.selectedTags.length} / ${appState.maxTags}`;
+  document.getElementById("statCompletion").textContent = `${completion}%`;
+
+  // Category breakdown
+  const breakdown = {};
+  appState.selectedCuisines.forEach((c) => {
+    breakdown["Cuisines"] = (breakdown["Cuisines"] || 0) + 1;
+  });
+  appState.selectedTags.forEach((t) => {
+    breakdown[t.category] = (breakdown[t.category] || 0) + 1;
+  });
+
+  const breakdownHtml = Object.entries(breakdown)
+    .map(
+      ([cat, count]) =>
+        `<div class="breakdown-item"><span>${cat}</span><span class="count">${count}</span></div>`,
+    )
+    .join("");
+
+  document.getElementById("categoryBreakdown").innerHTML =
+    breakdownHtml || '<p class="empty">No selections yet</p>';
+}
+
+// Tab switching
+function switchTab(tabName) {
+  document
+    .querySelectorAll(".tab-content")
+    .forEach((tab) => tab.classList.remove("active"));
+  document
+    .querySelectorAll(".nav-item")
+    .forEach((btn) => btn.classList.remove("active"));
+
+  document.getElementById(`${tabName}Tab`).classList.add("active");
+  document.querySelector(`[data-tab="${tabName}"]`).classList.add("active");
+
+  // Update titles
+  const titles = {
+    selector: {
+      title: "Cuisine & Tag Selector",
+      subtitle: "Select up to 3 cuisines to view related tags",
+    },
+    preview: {
+      title: "Selection Preview",
+      subtitle: "View your current selections and export data",
+    },
+    analytics: {
+      title: "Analytics",
+      subtitle: "Track your selection progress",
+    },
+    settings: { title: "Settings", subtitle: "Customize your preferences" },
+  };
+
+  if (titles[tabName]) {
+    document.getElementById("pageTitle").textContent = titles[tabName].title;
+    document.getElementById("pageSubtitle").textContent =
+      titles[tabName].subtitle;
+  }
+}
+
+// Export data as CSV
+function exportData() {
+  let csv = "CAREEM - CUISINE & TAG SELECTION\n";
+  csv += `Export Date,${new Date().toLocaleString()}\n\n`;
+
+  // Cuisines section
+  csv += "SELECTED CUISINES\n";
+  csv += "Name,Category,Region\n";
+  if (appState.selectedCuisines.length > 0) {
+    appState.selectedCuisines.forEach((cuisine) => {
+      csv += `"${cuisine.name}","${cuisine.category}","${cuisine.region || ""}"\n`;
+    });
+  } else {
+    csv += "No cuisines selected\n";
+  }
+
+  csv += "\n";
+
+  // Tags section
+  csv += "SELECTED TAGS\n";
+  csv += "Name,Category,Count\n";
+  if (appState.selectedTags.length > 0) {
+    appState.selectedTags.forEach((tag) => {
+      csv += `"${tag.name}","${tag.category || ""}",1\n`;
+    });
+  } else {
+    csv += "No tags selected\n";
+  }
+
+  csv += "\n";
+
+  // Summary
+  csv += "SUMMARY\n";
+  csv += `Total Cuisines Selected,${appState.selectedCuisines.length}\n`;
+  csv += `Total Tags Selected,${appState.selectedTags.length}\n`;
+
+  const dataBlob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(dataBlob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `careem-selections-${new Date().getTime()}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
+  showToast("Data exported as CSV successfully", "success");
+}
+
+// Import data
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    try {
+      const data = JSON.parse(event.target.result);
+      appState.selectedCuisines = data.cuisines || [];
+      appState.selectedTags = data.tags || [];
+      saveState();
+      renderUI();
+      showToast("Data imported successfully", "success");
+    } catch (error) {
+      showToast("Error importing data", "danger");
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = "";
+}
+
+// Copy CSV to clipboard
+function copyJsonToClipboard() {
+  const csv = document.getElementById("jsonPreview").textContent;
+  navigator.clipboard.writeText(csv).then(() => {
+    showToast("CSV copied to clipboard", "success");
+  });
+}
+
+// Clear all selections
+function clearAllSelections() {
+  appState.selectedCuisines = [];
+  appState.selectedTags = [];
+  saveState();
+  renderUI();
+  showToast("All selections cleared", "info");
+}
+
+// Local storage management
+function saveState() {
+  if (appState.autoSave) {
+    localStorage.setItem("cuisineTagState", JSON.stringify(appState));
+  }
+}
+
+function loadStateFromStorage() {
+  const saved = localStorage.getItem("cuisineTagState");
+  if (saved) {
+    const loaded = JSON.parse(saved);
+    // Hardcode selection limits (no longer user-editable)
+    appState.maxCuisines = 3;
+    appState.maxTags = 6;
+    appState.autoSave = loaded.autoSave !== false;
+    appState.showCategories = loaded.showCategories !== false;
+    appState.darkMode = loaded.darkMode || false;
+    appState.notes = loaded.notes || "";
+    appState.selectedCuisines = (loaded.selectedCuisines || []).filter((c) =>
+      cuisineTagData.cuisines.find((x) => x.id === c.id),
+    );
+    appState.selectedTags = (loaded.selectedTags || []).filter((t) =>
+      cuisineTagData.allTags.find((x) => x.id === t.id),
+    );
+  }
+
+  // Update UI with loaded settings (only those that still exist)
+  document.getElementById("autoSave").checked = appState.autoSave;
+  document.getElementById("showCategories").checked = appState.showCategories;
+  document.getElementById("darkMode").checked = appState.darkMode;
+  const notesBox = document.getElementById("notesBox");
+  if (notesBox) {
+    notesBox.value = appState.notes;
+  }
+
+  if (appState.darkMode) {
+    document.body.classList.add("dark-mode");
+  }
+}
+
+// Toast notifications
+function showToast(message, type = "info") {
+  const container = document.getElementById("toastContainer");
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `<i class="fas fa-${type === "success" ? "check" : type === "danger" ? "times" : type === "warning" ? "exclamation" : "info"}-circle"></i> ${message}`;
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("show");
+  }, 10);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
