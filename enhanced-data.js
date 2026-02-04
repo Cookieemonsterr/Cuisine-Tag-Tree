@@ -1122,7 +1122,8 @@ const cuisineTagData = {
     { id: 1281, name: "Dunkin Donuts", category: "Brands" },
   ],
 
-    subpageTags: [
+  // Subpage tags
+  subpageTags: [
     { id: 1, name: "Grills", category: "Food" },
     { id: 2, name: "Shawarma", category: "Food" },
     { id: 3, name: "Manakish", category: "Food" },
@@ -1164,126 +1165,482 @@ const cuisineTagData = {
     { id: 39, name: "Cakes", category: "Desserts" },
     { id: 40, name: "Bakery", category: "Food" },
   ],
-}; // ✅ THIS CLOSES cuisineTagData CORRECTLY
+};
 
-// ✅ NOW the patch runs OUTSIDE the object (valid JS)
+
+/* =========================
+   AUTO-NORMALIZE IDs + OTHERS TAGS (from UAE Proposed Tree sheet)
+   - Forces cuisine IDs to match sheet
+   - Forces related tag IDs to match sheet
+   - Adds "Others" as a TAG category (non-geographical cuisine tags)
+   ========================= */
 (() => {
+  // Maps are LOWERCASED keys
   const cuisineIdByName = {
-    "algerian": 1264,
-    "american": 33,
-    "bengali": 67,
-    "british": 40,
-    "chettinad": 70,
-    "chinese": 1,
-    "egyptian": 39,
-    "emirati": 47,
-    "filipino": 41,
-    "french": 10,
-    "german": 13,
-    "greek": 21,
-    "gujarati": 55,
-    "hyderabadi": 66,
-    "indo-chinese (limited used)": 262,
-    "indonesian": 31,
-    "italian": 15,
-    "japanese": 9,
-    "jordanian": 46,
-    "karahi": 9,
-    "kerala": 87,
-    "korean": 28,
-    "kuwaiti": 57,
-    "lebanese": 11,
-    "maharashtrian": 69,
-    "malaysian": 27,
-    "moroccan": 14,
-    "nepali": 77,
-    "north indian": 19,
-    "palestinian": 1332,
-    "pelmeni": 332,
-    "portuguese": 38,
-    "rajasthani": 65,
-    "russian sushi": 6,
-    "saudi": 207,
-    "scandinavian": 20,
-    "singaporean": 71,
-    "south indian": 79,
-    "spanish": 17,
-    "sri lankan": 78,
-    "syrian": 44,
-    "sweets": 24,
-    "tacos": 42,
-    "thai": 30,
-    "turkish": 22,
-    "vietnamese": 26,
-  };
+  "lebanese": 11,
+  "syrian": 44,
+  "palestinian": 1332,
+  "jordanian": 46,
+  "saudi": 207,
+  "emirati": 47,
+  "yemeni": 52,
+  "kuwaiti": 57,
+  "egyptian": 39,
+  "algerian": 1264,
+  "moroccan": 14,
+  "turkish": 22,
+  "japanese": 9,
+  "vietnamese": 23,
+  "thai": 21,
+  "malaysian": 27,
+  "indonesian": 6,
+  "korean": 10,
+  "filipino": 41,
+  "chinese": 1,
+  "singaporean": 18,
+  "nepali": 1279,
+  "sri lankan": 20,
+  "karahi": 1904,
+  "north indian": 83,
+  "rajasthani": 85,
+  "bengali": 67,
+  "hyderabadi": 78,
+  "south indian": 87,
+  "kerala": 79,
+  "gujarati": 76,
+  "goan": 75,
+  "indo-chinese (limited used)": 1177,
+  "maharashtrian": 80,
+  "chettinad": 70,
+  "sweets": 348,
+  "italian": 8,
+  "french": 3,
+  "greek": 4,
+  "portuguese": 31,
+  "german": 38,
+  "spanish": 28,
+  "british": 40,
+  "american": 33
+};
+  const cuisineCategoryByName = {
+  "lebanese": "Arabic",
+  "syrian": "Arabic",
+  "palestinian": "Arabic",
+  "jordanian": "Arabic",
+  "saudi": "Arabic",
+  "emirati": "Arabic",
+  "yemeni": "Arabic",
+  "kuwaiti": "Arabic",
+  "egyptian": "Arabic",
+  "algerian": "Arabic",
+  "moroccan": "Arabic",
+  "turkish": "Arabic",
+  "japanese": "Asian",
+  "vietnamese": "Asian",
+  "thai": "Asian",
+  "malaysian": "Asian",
+  "indonesian": "Asian",
+  "korean": "Asian",
+  "filipino": "Asian",
+  "chinese": "Asian",
+  "singaporean": "Asian",
+  "nepali": "Asian",
+  "sri lankan": "Asian",
+  "karahi": "Pakistani",
+  "north indian": "Indian",
+  "rajasthani": "Indian",
+  "bengali": "Indian",
+  "hyderabadi": "Indian",
+  "south indian": "Indian",
+  "kerala": "Indian",
+  "gujarati": "Indian",
+  "goan": "Indian",
+  "indo-chinese (limited used)": "Indian",
+  "maharashtrian": "Indian",
+  "chettinad": "Indian",
+  "sweets": "Desserts",
+  "italian": "European",
+  "french": "European",
+  "greek": "European",
+  "portuguese": "European",
+  "german": "European",
+  "spanish": "European",
+  "british": "European",
+  "american": "American"
+};
+  const tagIdByName = {
+  "pie": 375,
+  "manakish": 414,
+  "pastries": 153,
+  "levant brand logos subpage": 1356,
+  "breakfast": 124,
+  "foul": 257,
+  "mezze": 1895,
+  "kebab": 847,
+  "bbq & grill": 541,
+  "breakfast levant tile subpage": 1416,
+  "bakery": 211,
+  "fatteh": 1412,
+  "falafel": 243,
+  "hummus": 241,
+  "falafel levant tile subpage": 1410,
+  "mansaf  (jordanian)": 1144,
+  "kunafa": 202,
+  "foul & fatteh levant tile subpage": 1412,
+  "kabsa (saudi)": 599,
+  "mandi": 598,
+  "grills levant tile subpage": 1383,
+  "luqaimat (emirati)": 454,
+  "harees (emirati)": 1143,
+  "homestyle meals levant tile subpage": 1382,
+  "biryani": 97,
+  "manakish levant tile subpage": 1384,
+  "rice": 349,
+  "mezze levant tile subpage": 1411,
+  "koshary (egyptian)": 725,
+  "mutabbaq": 326,
+  "shawarma levant tile subpage": 1381,
+  "arabic sweets desserts tile subpage": 1390,
+  "tajin": 352,
+  "arabic brand logos subpage": 1596,
+  "doner (turkish)": 821,
+  "grilled chicken subpage tag": 1460,
+  "dimsum": 1142,
+  "sinigang": 1150,
+  "indo-chinese moods carousel asian subpage": 1415,
+  "pad thai": 1145,
+  "noodles": 490,
+  "chinese moods carousel asian subpage": 1405,
+  "sweets": 204,
+  "sushi": 110,
+  "ramen": 1349,
+  "filipino moods carousel asian subpage": 1414,
+  "vegetarian": 808,
+  "pho": 1896,
+  "noodles & ramen": 151,
+  "japanese moods carousel asian subpage": 1404,
+  "seafood": 600,
+  "dumplings": 762,
+  "nasi goreng (indonesian)": 1152,
+  "korean moods carousel asian subpage": 1406,
+  "bubble tea": 685,
+  "bibimbap (korean)": 1153,
+  "rest of asia moods carousel asian subpage": 1413,
+  "poke": 1899,
+  "tapsilog": 1148,
+  "sinagporean moods carousel asian subpage": 1408,
+  "pan asian": 357,
+  "pancit": 1149,
+  "thai moods carousel asian subpage": 1403,
+  "maki": 324,
+  "vietnamese moods carousel asian subpage": 1407,
+  "asian brand logos subpage": 1351,
+  "boba tile asian subpage": 1399,
+  "handi": 911,
+  "desi": 198,
+  "indian brand logos subpage": 1352,
+  "biryani tile indian subpage": 1428,
+  "kulfi": 233,
+  "chaat tile indian subpage": 1427,
+  "pure veg": 1074,
+  "chaat": 1072,
+  "kerala tile indian subpage": 1430,
+  "momos": 492,
+  "north indian subpage tile": 1421,
+  "thali": 1073,
+  "paratha tile indian subpage": 1425,
+  "paratha": 679,
+  "pure veg tile indian subpage": 1423,
+  "rolls tile indian subpage": 1431,
+  "meals": 1154,
+  "meat dish": 435,
+  "south indian subpage tile": 1422,
+  "chicken dishes": 422,
+  "tea tile indian subpage": 1426,
+  "snacks": 114,
+  "curry dishes": 463,
+  "thali tile indian subpage": 1429,
+  "soup": 149,
+  "gujarati": 1897,
+  "salads": 150,
+  "crepes": 99,
+  "dessert brand logos subpage": 1357,
+  "artisanal pizza carousel subpage": 1358,
+  "bakery & confectionery": 42,
+  "croissant": 562,
+  "gyros": 1165,
+  "wraps": 469,
+  "chicken": 113,
+  "doner": 821,
+  "pretzel": 1902,
+  "tortilla": 1900,
+  "fish & chips": 656,
+  "burger": 53,
+  "chicken & wings manual carousel": 1457,
+  "fried chicken": 251
+};
 
+  const nonGeographicalTags = [
+  {
+    "id": 802,
+    "name": "Soups",
+    "category": "Others"
+  },
+  {
+    "id": 665,
+    "name": "Salads",
+    "category": "Others"
+  },
+  {
+    "id": 331,
+    "name": "Smoothies",
+    "category": "Others"
+  },
+  {
+    "id": 102,
+    "name": "Juices",
+    "category": "Others"
+  },
+  {
+    "id": 348,
+    "name": "Sweets",
+    "category": "Others"
+  },
+  {
+    "id": 508,
+    "name": "Sandwiches",
+    "category": "Others"
+  },
+  {
+    "id": 248,
+    "name": "Ice Cream",
+    "category": "Others"
+  },
+  {
+    "id": 777,
+    "name": "Chicken",
+    "category": "Others"
+  },
+  {
+    "id": 507,
+    "name": "Coffee",
+    "category": "Others"
+  },
+  {
+    "id": 247,
+    "name": "Desserts",
+    "category": "Others"
+  },
+  {
+    "id": 346,
+    "name": "Fried Chicken",
+    "category": "Others"
+  },
+  {
+    "id": 470,
+    "name": "Wraps",
+    "category": "Others"
+  },
+  {
+    "id": 1906,
+    "name": "Dosa",
+    "category": "Others"
+  },
+  {
+    "id": 401,
+    "name": "Tea",
+    "category": "Others"
+  },
+  {
+    "id": 109,
+    "name": "Steak",
+    "category": "Others"
+  },
+  {
+    "id": 796,
+    "name": "Pie",
+    "category": "Others"
+  },
+  {
+    "id": 789,
+    "name": "Kids",
+    "category": "Others"
+  },
+  {
+    "id": 844,
+    "name": "Burger",
+    "category": "Others"
+  },
+  {
+    "id": 394,
+    "name": "Fish",
+    "category": "Others"
+  },
+  {
+    "id": 811,
+    "name": "Wings",
+    "category": "Others"
+  },
+  {
+    "id": 313,
+    "name": "Pizza",
+    "category": "Others"
+  },
+  {
+    "id": 794,
+    "name": "Pasta",
+    "category": "Others"
+  },
+  {
+    "id": 780,
+    "name": "Crepes",
+    "category": "Others"
+  },
+  {
+    "id": 786,
+    "name": "Hot Dog",
+    "category": "Others"
+  },
+  {
+    "id": 88,
+    "name": "Street food",
+    "category": "Others"
+  },
+  {
+    "id": 687,
+    "name": "Bakery & Confectionery",
+    "category": "Others"
+  },
+  {
+    "id": 765,
+    "name": "Cakes",
+    "category": "Others"
+  },
+  {
+    "id": 248,
+    "name": "Ice Cream",
+    "category": "Others"
+  },
+  {
+    "id": 35,
+    "name": "cafe",
+    "category": "Others"
+  },
+  {
+    "id": 761,
+    "name": "Donuts",
+    "category": "Others"
+  },
+  {
+    "id": 811,
+    "name": "Wings",
+    "category": "Others"
+  },
+  {
+    "id": 438,
+    "name": "Shakes",
+    "category": "Others"
+  },
+  {
+    "id": 507,
+    "name": "Coffee",
+    "category": "Others"
+  },
+  {
+    "id": 24,
+    "name": "Seafood",
+    "category": "Others"
+  },
+  {
+    "id": 45,
+    "name": "Sandwiches  & wraps",
+    "category": "Others"
+  },
+  {
+    "id": 201,
+    "name": "Cookies",
+    "category": "Others"
+  },
+  {
+    "id": 36,
+    "name": "fast food",
+    "category": "Others"
+  },
+  {
+    "id": 1907,
+    "name": "Pancakes",
+    "category": "Others"
+  },
+  {
+    "id": 200,
+    "name": "Waffles",
+    "category": "Others"
+  },
+  {
+    "id": 1908,
+    "name": "Bagels",
+    "category": "Others"
+  }
+];
+
+  const normKey = (s) =>
+    String(s || "")
+      .toLowerCase()
+      .trim()
+      // remove "(...)" suffix in names like "Mansaf (Jordanian)"
+      .replace(/\s*\([^\)]*\)\s*/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+  // Ensure arrays exist
+  cuisineTagData.cuisines = Array.isArray(cuisineTagData.cuisines) ? cuisineTagData.cuisines.filter(Boolean) : [];
+  // Remove any accidental 'Others' cuisine (Others should live under TAGS only)
+  cuisineTagData.cuisines = cuisineTagData.cuisines.filter((c) => normKey(c?.name) !== "others");
+  cuisineTagData.allTags = Array.isArray(cuisineTagData.allTags) ? cuisineTagData.allTags.filter(Boolean) : [];
+
+  // 1) Force cuisine IDs + (optionally) category names to match sheet
   cuisineTagData.cuisines.forEach((c) => {
-    const key = String(c.name || "").toLowerCase().trim();
+    const key = normKey(c.name);
     if (cuisineIdByName[key]) c.id = cuisineIdByName[key];
+    if (cuisineCategoryByName[key]) c.category = cuisineCategoryByName[key];
   });
 
-  const othersCuisineId = 9999;
-  const othersFoodTags = [
-    "Soups","Salads","Smoothies","Juices","Sweets","Sandwiches","Ice Cream","Chicken",
-    "Coffee","Desserts","Fried Chicken","Wraps","Dosa","Tea","Steak","Pie","Kids","Burger",
-    "Fish","Wings","Pizza","Pasta","Crepes","Hot Dog","Street food","Bakery & Confectionery",
-    "Cakes","cafe","Donuts","Shakes","Seafood","Sandwiches  & wraps","Cookies","fast food",
-    "Pancakes","Waffles","Bagels"
-  ];
+  // 2) Add non-geographical tags into allTags under category "Others"
+  const existingTagIds = new Set(cuisineTagData.allTags.map((t) => t && t.id));
+  nonGeographicalTags.forEach((t) => {
+    if (!existingTagIds.has(t.id)) {
+      cuisineTagData.allTags.push({
+        id: t.id,
+        name: t.name,
+        category: "Others",
+      });
+      existingTagIds.add(t.id);
+    }
+  });
 
-  if (!cuisineTagData.cuisines.find((c) => String(c.name).toLowerCase() === "others")) {
-    cuisineTagData.cuisines.push({
-      id: othersCuisineId,
-      name: "Others",
-      category: "Others",
-      region: "",
-      foodTags: othersFoodTags,
-      subpageTags: [],
+  // 3) Ensure any sheet-defined tags (food/subpage/general) exist in allTags with correct IDs
+  Object.entries(tagIdByName).forEach(([nameKey, id]) => {
+    if (!existingTagIds.has(id)) {
+      // Try to keep a reasonable category if it already exists by name
+      const existingByName = cuisineTagData.allTags.find((t) => normKey(t.name) === nameKey);
+      cuisineTagData.allTags.push({
+        id,
+        name: existingByName ? existingByName.name : nameKey,
+        category: (existingByName && existingByName.category) ? existingByName.category : "Food",
+      });
+      existingTagIds.add(id);
+    }
+  });
+
+  // 4) Convert cuisine.foodTags from names -> tag IDs (for reliable lookups + exact IDs)
+  cuisineTagData.cuisines.forEach((c) => {
+    const converted = [];
+    (c.foodTags || []).forEach((tagName) => {
+      const k = normKey(tagName);
+      const id = tagIdByName[k];
+      if (id) converted.push(id);
     });
-  }
-
-  const nonGeoTags = [
-    { id: 24, name: "Seafood", category: "Others" },
-    { id: 35, name: "cafe", category: "Others" },
-    { id: 36, name: "fast food", category: "Others" },
-    { id: 45, name: "Sandwiches  & wraps", category: "Others" },
-    { id: 88, name: "Street food", category: "Others" },
-    { id: 97, name: "Biryani", category: "Others" },
-    { id: 102, name: "Juices", category: "Others" },
-    { id: 109, name: "Steak", category: "Others" },
-    { id: 200, name: "Waffles", category: "Others" },
-    { id: 201, name: "Cookies", category: "Others" },
-    { id: 248, name: "Ice Cream", category: "Others" },
-    { id: 313, name: "Pizza", category: "Others" },
-    { id: 331, name: "Smoothies", category: "Others" },
-    { id: 346, name: "Fried Chicken", category: "Others" },
-    { id: 348, name: "Sweets", category: "Others" },
-    { id: 394, name: "Fish", category: "Others" },
-    { id: 401, name: "Tea", category: "Others" },
-    { id: 438, name: "Shakes", category: "Others" },
-    { id: 470, name: "Wraps", category: "Others" },
-    { id: 507, name: "Coffee", category: "Others" },
-    { id: 508, name: "Sandwiches", category: "Others" },
-    { id: 665, name: "Salads", category: "Others" },
-    { id: 687, name: "Bakery & Confectionery", category: "Others" },
-    { id: 761, name: "Donuts", category: "Others" },
-    { id: 765, name: "Cakes", category: "Others" },
-    { id: 777, name: "Chicken", category: "Others" },
-    { id: 780, name: "Crepes", category: "Others" },
-    { id: 786, name: "Hot Dog", category: "Others" },
-    { id: 789, name: "Kids", category: "Others" },
-    { id: 794, name: "Pasta", category: "Others" },
-    { id: 796, name: "Pie", category: "Others" },
-    { id: 802, name: "Soups", category: "Others" },
-    { id: 811, name: "Wings", category: "Others" },
-    { id: 844, name: "Burger", category: "Others" },
-    { id: 1906, name: "Dosa", category: "Others" },
-    { id: 1907, name: "Pancakes", category: "Others" },
-    { id: 1908, name: "Bagels", category: "Others" },
-  ];
-
-  const existingIds = new Set((cuisineTagData.allTags || []).map((t) => t && t.id));
-  nonGeoTags.forEach((t) => {
-    if (!existingIds.has(t.id)) cuisineTagData.allTags.push(t);
+    c.foodTagIds = converted; // new field used by the app
   });
 })();
+
