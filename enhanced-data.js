@@ -1,7 +1,7 @@
 const cuisineTagData = {
   cuisines: [
     {
-      id: 37,
+      id: 1,
       name: "Lebanese",
       category: "Arabic",
       region: "",
@@ -9,7 +9,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 59,
+      id: 2,
       name: "Syrian",
       category: "Arabic",
       region: "",
@@ -17,7 +17,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1264,
+      id: 3,
       name: "Palestinian",
       category: "Arabic",
       region: "",
@@ -25,7 +25,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1265,
+      id: 4,
       name: "Jordanian",
       category: "Arabic",
       region: "",
@@ -33,7 +33,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1266,
+      id: 5,
       name: "Saudi",
       category: "Arabic",
       region: "",
@@ -41,7 +41,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1267,
+      id: 6,
       name: "Emirati",
       category: "Arabic",
       region: "",
@@ -49,7 +49,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1268,
+      id: 7,
       name: "Yemeni",
       category: "Arabic",
       region: "",
@@ -57,7 +57,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1269,
+      id: 8,
       name: "Kuwaiti",
       category: "Arabic",
       region: "",
@@ -65,7 +65,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1270,
+      id: 9,
       name: "Egyptian",
       category: "Arabic",
       region: "",
@@ -73,7 +73,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1271,
+      id: 10,
       name: "Algerian",
       category: "Arabic",
       region: "",
@@ -81,7 +81,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1272,
+      id: 11,
       name: "Moroccan",
       category: "Arabic",
       region: "",
@@ -89,7 +89,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1273,
+      id: 12,
       name: "Turkish",
       category: "Turkish",
       region: "",
@@ -97,7 +97,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 1,
+      id: 13,
       name: "Japanese",
       category: "Asian",
       region: "",
@@ -118,9 +118,8 @@ const cuisineTagData = {
       ],
       subpageTags: [],
     },
-
     {
-      id: 2,
+      id: 14,
       name: "Vietnamese",
       category: "Asian",
       region: "",
@@ -141,7 +140,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 3,
+      id: 15,
       name: "Thai",
       category: "Asian",
       region: "",
@@ -162,7 +161,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 4,
+      id: 16,
       name: "Malaysian",
       category: "Asian",
       region: "",
@@ -183,7 +182,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 5,
+      id: 17,
       name: "Indonesian",
       category: "Asian",
       region: "",
@@ -205,7 +204,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 6,
+      id: 18,
       name: "Korean",
       category: "Asian",
       region: "",
@@ -227,7 +226,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 7,
+      id: 19,
       name: "Filipino",
       category: "Asian",
       region: "",
@@ -248,7 +247,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 8,
+      id: 20,
       name: "Chinese",
       category: "Asian",
       region: "",
@@ -269,7 +268,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 9,
+      id: 21,
       name: "Singaporean",
       category: "Asian",
       region: "",
@@ -290,7 +289,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 10,
+      id: 22,
       name: "Nepali",
       category: "Asian",
       region: "",
@@ -311,7 +310,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 11,
+      id: 23,
       name: "Sri Lankan",
       category: "Asian",
       region: "",
@@ -332,7 +331,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 12,
+      id: 24,
       name: "Karahi",
       category: "Pakistani",
       region: "",
@@ -351,7 +350,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 13,
+      id: 25,
       name: "North Indian",
       category: "Indian",
       region: "",
@@ -376,7 +375,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 14,
+      id: 26,
       name: "Rajasthani",
       category: "Indian",
       region: "",
@@ -401,7 +400,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 15,
+      id: 27,
       name: "Bengali",
       category: "Indian",
       region: "",
@@ -426,7 +425,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 16,
+      id: 28,
       name: "Hyderabadi",
       category: "Indian",
       region: "",
@@ -451,7 +450,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 17,
+      id: 29,
       name: "South Indian",
       category: "Indian",
       region: "",
@@ -478,7 +477,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 18,
+      id: 30,
       name: "Kerala",
       category: "Indian",
       region: "",
@@ -503,7 +502,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 19,
+      id: 31,
       name: "Gujarati",
       category: "Indian",
       region: "",
@@ -528,7 +527,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 20,
+      id: 32,
       name: "Goan",
       category: "Indian",
       region: "",
@@ -553,7 +552,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 21,
+      id: 33,
       name: "Indo-Chinese (Limited used)",
       category: "Indian",
       region: "",
@@ -579,7 +578,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 22,
+      id: 34,
       name: "Maharashtrian",
       category: "Indian",
       region: "",
@@ -605,7 +604,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 23,
+      id: 35,
       name: "Chettinad",
       category: "Indian",
       region: "",
@@ -630,7 +629,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 26,
+      id: 36,
       name: "Sweets",
       category: "Desserts",
       region: "",
@@ -650,7 +649,7 @@ const cuisineTagData = {
     },
     {},
     {
-      id: 34,
+      id: 37,
       name: "Healthy",
       category: "Healthy",
       region: "",
@@ -682,7 +681,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 36,
+      id: 38,
       name: "Cafe",
       category: "Cafe",
       region: "",
@@ -706,7 +705,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 38,
+      id: 39,
       name: "Cafeteria",
       category: "Cafeteria",
       region: "",
@@ -727,7 +726,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 41,
+      id: 40,
       name: "Burritos",
       category: "Mexican",
       region: "",
@@ -743,7 +742,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 43,
+      id: 41,
       name: "Pelmeni",
       category: "Russian",
       region: "",
@@ -759,7 +758,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 44,
+      id: 42,
       name: "Borscht",
       category: "Russian",
       region: "",
@@ -775,7 +774,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 44,
+      id: 43,
       name: "Russian Sushi",
       category: "Russian",
       region: "",
@@ -791,7 +790,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 45,
+      id: 44,
       name: "French",
       category: "European",
       region: "",
@@ -809,7 +808,7 @@ const cuisineTagData = {
       subpageTags: [""],
     },
     {
-      id: 46,
+      id: 45,
       name: "Greek",
       category: "European",
       region: "",
@@ -964,7 +963,7 @@ const cuisineTagData = {
       subpageTags: [],
     },
     {
-      id: 53,
+      id: 54,
       name: "Brisket",
       category: "American",
       region: "",
@@ -1168,3 +1167,4 @@ const cuisineTagData = {
     { id: 40, name: "Bakery", category: "Food" },
   ],
 };
+
