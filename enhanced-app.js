@@ -264,32 +264,32 @@ function normalizeTagName(s) {
     .trim();
 }
 
-function getRelatedTags() {
-  if (!appState.selectedCuisines.length) return [];
+function getRelatedTags(selectedCuisineNames) {
+  const cuisineByName = new Map(
+    cuisineTagData.cuisines.map((c) => [String(c.name).toLowerCase(), c])
+  );
 
-  const relatedTagIds = new Set();
+  // Build quick lookup for tags by id
+  const tagById = new Map((cuisineTagData.allTags || []).map((t) => [t.id, t]));
 
-  appState.selectedCuisines.forEach((c) => {
-    if (Array.isArray(c.foodTagIds) && c.foodTagIds.length) {
-      c.foodTagIds.forEach((id) => relatedTagIds.add(id));
-      return;
-    }
+  const selected = selectedCuisineNames
+    .map((n) => cuisineByName.get(String(n).toLowerCase()))
+    .filter(Boolean);
 
-    (c.foodTags || []).forEach((name) => {
-      const found = cuisineTagData.allTags.find(
-        (t) => String(t.name || "").toLowerCase().trim() === String(name || "").toLowerCase().trim()
-      );
-      if (found) relatedTagIds.add(found.id);
-    });
-  });
+  const idSet = new Set();
+  selected.forEach((c) => (c.foodTagIds || []).forEach((id) => idSet.add(id)));
 
-    // Always include 'Others' (non-geographical cuisine tags) under Tags
-  cuisineTagData.allTags.forEach((t) => {
-    if (String(t.category || "").toLowerCase() === "others") relatedTagIds.add(t.id);
-  });
+  // Always include non-geographical "Others" tags (so they stay available under Tags)
+  (cuisineTagData.allTags || [])
+    .filter((t) => String(t.category || "").toLowerCase() === "others")
+    .forEach((t) => idSet.add(t.id));
 
-  return cuisineTagData.allTags.filter((t) => relatedTagIds.has(t.id));
+  return Array.from(idSet)
+    .map((id) => tagById.get(id))
+    .filter(Boolean);
 }
+
+
 // Render tags
 function renderTags() {
   const grid = document.getElementById("tagGrid");
@@ -617,6 +617,8 @@ function loadStateFromStorage() {
   if (appState.darkMode) {
     document.body.classList.add("dark-mode");
   }
+}
+
 // Toast notifications
 function showToast(message, type = "info") {
   const container = document.getElementById("toastContainer");
@@ -634,3 +636,6 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
+
+
