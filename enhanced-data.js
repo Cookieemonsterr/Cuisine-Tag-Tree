@@ -1406,10 +1406,27 @@ const cuisineTagData = {
     { id: 1907, name: "Pancakes", category: "Others" },
     { id: 1908, name: "Bagels", category: "Others" },
   ];
+  
+// ✅ ALSO add Non-Geographical as CUISINES under "Others" (keep real IDs)
+const existingCuisineIds = new Set((cuisineTagData.cuisines || []).map(c => c && c.id));
 
+nonGeoTags.forEach((t) => {
+  if (!existingCuisineIds.has(t.id)) {
+    cuisineTagData.cuisines.push({
+      id: t.id,                // ✅ KEEP SHEET ID
+      name: t.name,            // Seafood, cafe, fast food...
+      category: "Others",      // ✅ shows under Others filter
+      region: "",
+      foodTags: [],            // tags will be handled from app.js (General tags)
+      subpageTags: [],
+      __nonGeo: true           // marker
+    });
+  }
+});
   const existingIds = new Set((cuisineTagData.allTags || []).map((t) => t && t.id));
   nonGeoTags.forEach((t) => {
     if (!existingIds.has(t.id)) cuisineTagData.allTags.push(t);
   });
 })();
+
 
