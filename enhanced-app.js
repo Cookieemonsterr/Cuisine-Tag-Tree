@@ -620,7 +620,7 @@ function loadStateFromStorage() {
   const saved = localStorage.getItem("cuisineTagState");
   if (saved) {
     const loaded = JSON.parse(saved);
-    // Hardcode selection limits (no longer user-editable)
+
     appState.maxCuisines = 2;
     appState.maxTags = 6;
     appState.autoSave = loaded.autoSave !== false;
@@ -630,12 +630,12 @@ function loadStateFromStorage() {
 
     appState.selectedCuisines = (loaded.selectedCuisines || [])
       .map((c) => {
-        // Prefer match by ID, but fallback to name (in case IDs changed)
         const byId = cuisineTagData.cuisines.find((x) => x.id === c.id);
         if (byId) return byId;
         if (c.name) {
           const byName = cuisineTagData.cuisines.find(
-            (x) => String(x.name).toLowerCase() === String(c.name).toLowerCase(),
+            (x) =>
+              String(x.name).toLowerCase() === String(c.name).toLowerCase(),
           );
           if (byName) return byName;
         }
@@ -643,15 +643,16 @@ function loadStateFromStorage() {
       })
       .filter(Boolean);
 
-    // Recompute the locked tree from the current selection
     appState.lockedCuisineCategory =
-      appState.selectedCuisines.length > 0 ? appState.selectedCuisines[0].category : null;
+      appState.selectedCuisines.length > 0
+        ? appState.selectedCuisines[0].category
+        : null;
 
     appState.selectedTags = (loaded.selectedTags || []).filter((t) =>
       cuisineTagData.allTags.find((x) => x.id === t.id),
     );
   }
-
+} 
 // Toast notifications
 function showToast(message, type = "info") {
   const container = document.getElementById("toastContainer");
@@ -677,6 +678,7 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
 
 
 
