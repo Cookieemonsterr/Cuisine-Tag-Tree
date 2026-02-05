@@ -290,8 +290,6 @@ function getRelatedTags() {
 
   return cuisineTagData.allTags.filter((t) => relatedTagIds.has(t.id));
 }
-}
-
 // Render tags
 function renderTags() {
   const grid = document.getElementById("tagGrid");
@@ -619,8 +617,6 @@ function loadStateFromStorage() {
   if (appState.darkMode) {
     document.body.classList.add("dark-mode");
   }
-}
-
 // Toast notifications
 function showToast(message, type = "info") {
   const container = document.getElementById("toastContainer");
@@ -638,6 +634,3 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
-
-
-
