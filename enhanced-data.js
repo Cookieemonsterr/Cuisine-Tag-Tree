@@ -1643,4 +1643,3 @@ const cuisineTagData = {
     c.foodTagIds = converted; // new field used by the app
   });
 })();
-
