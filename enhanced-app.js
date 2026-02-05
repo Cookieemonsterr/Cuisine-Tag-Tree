@@ -266,6 +266,14 @@ function filterBySearch(searchTerm) {
   renderTags();
 }
 
+// ✅ Allowed General Tag IDs (only the ones Lulu approved)
+const ALLOWED_GENERAL_TAG_IDS = new Set([
+  124, 211, 153, 204, 808, 600, 1899, 357, 324, 1074, 1073, 1154,
+  114, 149, 150, 541, 1169, 1257, 202, 454, 203, 260, 906, 1563,
+  917, 1173, 229, 1885, 1096, 1093, 1174, 452, 42, 538, 831, 259,
+  840, 1091, 679, 224, 222, 659, 251, 392, 53
+]);
+
 // Get related tags
 function getRelatedTags() {
   if (appState.selectedCuisines.length === 0) return [];
@@ -285,14 +293,19 @@ const hasNonGeoCuisine = appState.selectedCuisines.some(
 if (hasNonGeoCuisine) {
   (cuisineTagData.allTags || []).forEach((t) => {
     if (!t || !t.name) return;
-    const cat = String(t.category || "").toLowerCase().trim();
-    if (cat.includes("general")) {
-      const key = String(t.name).toLowerCase().trim();
-      if (!tagMap.has(key)) {
-        tagMap.set(key, { id: t.id, name: t.name, category: t.category });
-      }
+
+    // ✅ ONLY show approved general tags by ID
+    if (!ALLOWED_GENERAL_TAG_IDS.has(Number(t.id))) return;
+
+    const key = String(t.name).toLowerCase().trim();
+    if (!tagMap.has(key)) {
+      tagMap.set(key, { id: t.id, name: t.name, category: "General" });
     }
   });
+}
+// 🛑 IMPORTANT: stop here so nothing else adds tags
+if (hasNonGeoCuisine) {
+  return Array.from(tagMap.values());
 }
 
   // ❌ Skip cuisine foodTags if a Non-Geo cuisine is selected
@@ -697,6 +710,7 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
 
 
 
