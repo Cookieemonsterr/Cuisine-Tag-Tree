@@ -57,15 +57,21 @@ function setupEventListeners() {
   }
 
   // Data management
-  document.getElementById("resetDataBtn").addEventListener("click", () => {
+ // Data management (Settings removed -> guard against null)
+const resetDataBtn = document.getElementById("resetDataBtn");
+if (resetDataBtn) {
+  resetDataBtn.addEventListener("click", () => {
     if (confirm("Are you sure you want to reset all data?")) {
       clearAllSelections();
       showToast("All data has been reset", "success");
     }
   });
-  document
-    .getElementById("exportDataBtn")
-    .addEventListener("click", exportData);
+}
+
+const exportDataBtn = document.getElementById("exportDataBtn");
+if (exportDataBtn) {
+  exportDataBtn.addEventListener("click", exportData);
+}
 
   // File import
   document.getElementById("fileInput").addEventListener("change", importData);
@@ -487,17 +493,15 @@ function updateAnalytics() {
 
 // Tab switching
 function switchTab(tabName) {
-  document
-    .querySelectorAll(".tab-content")
-    .forEach((tab) => tab.classList.remove("active"));
-  document
-    .querySelectorAll(".nav-item")
-    .forEach((btn) => btn.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach((tab) => tab.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach((btn) => btn.classList.remove("active"));
 
-  document.getElementById(`${tabName}Tab`).classList.add("active");
-  document.querySelector(`[data-tab="${tabName}"]`).classList.add("active");
+  const tabEl = document.getElementById(`${tabName}Tab`);
+  if (tabEl) tabEl.classList.add("active");
 
-  // Update titles
+  const navEl = document.querySelector(`[data-tab="${tabName}"]`);
+  if (navEl) navEl.classList.add("active");
+
   const titles = {
     selector: {
       title: "Cuisine & Tag Selector",
@@ -511,11 +515,11 @@ function switchTab(tabName) {
       title: "Analytics",
       subtitle: "Track your selection progress",
     },
-    
+  };
+
   if (titles[tabName]) {
     document.getElementById("pageTitle").textContent = titles[tabName].title;
-    document.getElementById("pageSubtitle").textContent =
-      titles[tabName].subtitle;
+    document.getElementById("pageSubtitle").textContent = titles[tabName].subtitle;
   }
 }
 
@@ -673,6 +677,7 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
 
 
 
