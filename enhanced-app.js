@@ -264,31 +264,33 @@ function normalizeTagName(s) {
     .trim();
 }
 
-function getRelatedTags(selectedCuisineNames) {
-  const cuisineByName = new Map(
-    cuisineTagData.cuisines.map((c) => [String(c.name).toLowerCase(), c])
-  );
+function getRelatedTags() {
+  if (!appState.selectedCuisines.length) return [];
 
-  // Build quick lookup for tags by id
-  const tagById = new Map((cuisineTagData.allTags || []).map((t) => [t.id, t]));
+  const relatedTagIds = new Set();
 
-  const selected = selectedCuisineNames
-    .map((n) => cuisineByName.get(String(n).toLowerCase()))
-    .filter(Boolean);
+  appState.selectedCuisines.forEach((c) => {
+    if (Array.isArray(c.foodTagIds) && c.foodTagIds.length) {
+      c.foodTagIds.forEach((id) => relatedTagIds.add(id));
+      return;
+    }
 
-  const idSet = new Set();
-  selected.forEach((c) => (c.foodTagIds || []).forEach((id) => idSet.add(id)));
+    (c.foodTags || []).forEach((name) => {
+      const found = cuisineTagData.allTags.find(
+        (t) => String(t.name || "").toLowerCase().trim() === String(name || "").toLowerCase().trim()
+      );
+      if (found) relatedTagIds.add(found.id);
+    });
+  });
 
-  // Always include non-geographical "Others" tags (so they stay available under Tags)
-  (cuisineTagData.allTags || [])
-    .filter((t) => String(t.category || "").toLowerCase() === "others")
-    .forEach((t) => idSet.add(t.id));
+    // Always include 'Others' (non-geographical cuisine tags) under Tags
+  cuisineTagData.allTags.forEach((t) => {
+    if (String(t.category || "").toLowerCase() === "others") relatedTagIds.add(t.id);
+  });
 
-  return Array.from(idSet)
-    .map((id) => tagById.get(id))
-    .filter(Boolean);
+  return cuisineTagData.allTags.filter((t) => relatedTagIds.has(t.id));
 }
-
+}
 
 // Render tags
 function renderTags() {
@@ -296,10 +298,30 @@ function renderTags() {
   const infoBox = document.getElementById("tagInfo");
 
   if (appState.selectedCuisines.length === 0) {
+    // Show "Others" tags even when no cuisine is selected
+    const others = (cuisineTagData.allTags || []).filter(
+      (t) => t && String(t.category || "").toLowerCase() === "others",
+    );
+
     grid.innerHTML = "";
     infoBox.innerHTML =
-      '<p class="warning">👉 Select cuisines above to see related tags</p>';
-    document.getElementById("tagCount").textContent = "0";
+      '<p class="warning">👉 Select cuisines above to see related tags <span style="opacity:.7">— or pick from <strong>Others</strong> below</span></p>';
+
+    others.forEach((tag) => {
+      const btn = document.createElement("button");
+      btn.className = "btn tag-btn";
+      btn.textContent = `${tag.name} (${tag.id}) [${tag.category || ""}]`;
+      btn.dataset.id = tag.id;
+
+      if (appState.selectedTags.find((t) => t.id === tag.id)) {
+        btn.classList.add("active");
+      }
+
+      btn.addEventListener("click", () => toggleTag(tag));
+      grid.appendChild(btn);
+    });
+
+    updateAllCounters();
     return;
   }
 
@@ -312,7 +334,7 @@ function renderTags() {
   relatedTags.forEach((tag) => {
     const btn = document.createElement("button");
     btn.className = "btn tag-btn";
-    btn.textContent = `${tag.name} ${tag.category ? `[${tag.category}]` : ""}`;
+    btn.textContent = `${tag.name} (${tag.id}) [${tag.category || ""}]`;
     btn.dataset.id = tag.id;
 
     if (appState.selectedTags.find((t) => t.id === tag.id)) {
