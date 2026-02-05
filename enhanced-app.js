@@ -56,21 +56,6 @@ function setupEventListeners() {
     });
   }
 
-  // Settings
-  document.getElementById("autoSave").addEventListener("change", (e) => {
-    appState.autoSave = e.target.checked;
-    saveState();
-  });
-  document.getElementById("showCategories").addEventListener("change", (e) => {
-    appState.showCategories = e.target.checked;
-    renderCuisines();
-  });
-  document.getElementById("darkMode").addEventListener("change", (e) => {
-    appState.darkMode = e.target.checked;
-    document.body.classList.toggle("dark-mode");
-    saveState();
-  });
-
   // Data management
   document.getElementById("resetDataBtn").addEventListener("click", () => {
     if (confirm("Are you sure you want to reset all data?")) {
@@ -526,9 +511,7 @@ function switchTab(tabName) {
       title: "Analytics",
       subtitle: "Track your selection progress",
     },
-    settings: { title: "Settings", subtitle: "Customize your preferences" },
-  };
-
+    
   if (titles[tabName]) {
     document.getElementById("pageTitle").textContent = titles[tabName].title;
     document.getElementById("pageSubtitle").textContent =
@@ -665,20 +648,6 @@ function loadStateFromStorage() {
     );
   }
 
-  // Update UI with loaded settings (only those that still exist)
-  document.getElementById("autoSave").checked = appState.autoSave;
-  document.getElementById("showCategories").checked = appState.showCategories;
-  document.getElementById("darkMode").checked = appState.darkMode;
-  const notesBox = document.getElementById("notesBox");
-  if (notesBox) {
-    notesBox.value = appState.notes;
-  }
-
-  if (appState.darkMode) {
-    document.body.classList.add("dark-mode");
-  }
-}
-
 // Toast notifications
 function showToast(message, type = "info") {
   const container = document.getElementById("toastContainer");
@@ -704,6 +673,7 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
 
 
 
