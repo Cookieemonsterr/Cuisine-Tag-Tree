@@ -277,6 +277,24 @@ function getRelatedTags() {
   });
 
   const tagMap = new Map();
+  
+const hasNonGeoCuisine = appState.selectedCuisines.some(
+  (c) => c && c.category === "Others" && (c.__nonGeo === true)
+);
+
+if (hasNonGeoCuisine) {
+  (cuisineTagData.allTags || []).forEach((t) => {
+    if (!t || !t.name) return;
+    const cat = String(t.category || "").toLowerCase().trim();
+    if (cat.includes("general")) {
+ {
+      const key = String(t.name).toLowerCase().trim();
+      if (!tagMap.has(key)) {
+        tagMap.set(key, { id: t.id, name: t.name, category: t.category });
+      }
+    }
+  });
+}
 
   appState.selectedCuisines.forEach((cuisine) => {
     (cuisine.foodTags || []).forEach((rawName) => {
@@ -679,3 +697,4 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
