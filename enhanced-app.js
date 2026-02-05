@@ -281,35 +281,32 @@ function getRelatedTags() {
   // Build a fast lookup from the master tags list (name -> tag object)
   const byName = new Map();
   (cuisineTagData.allTags || []).forEach((t) => {
-    if (t && t.name) byName.set(String(t.name).toLowerCase(), t);
+    if (t && t.name) byName.set(String(t.name).toLowerCase().trim(), t);
   });
 
   const tagMap = new Map();
-  
-const hasNonGeoCuisine = appState.selectedCuisines.some(
-  (c) => c && c.category === "Others" && c.__nonGeo === true
-);
 
-if (hasNonGeoCuisine) {
-  (cuisineTagData.allTags || []).forEach((t) => {
-    if (!t || !t.name) return;
+  const hasNonGeoCuisine = appState.selectedCuisines.some(
+    (c) => c && c.category === "Others" && c.__nonGeo === true
+  );
 
-    // ✅ ONLY show approved general tags by ID
-    if (!ALLOWED_GENERAL_TAG_IDS.has(Number(t.id))) return;
+  // ✅ Non-geo selected -> ONLY approved general tags
+  if (hasNonGeoCuisine) {
+    (cuisineTagData.allTags || []).forEach((t) => {
+      if (!t || !t.name) return;
+      if (!ALLOWED_GENERAL_TAG_IDS.has(Number(t.id))) return;
 
-    const key = String(t.name).toLowerCase().trim();
-    if (!tagMap.has(key)) {
-      tagMap.set(key, { id: t.id, name: t.name, category: "General" });
-    }
-  });
-}
-// 🛑 IMPORTANT: stop here so nothing else adds tags
-if (hasNonGeoCuisine) {
-  return Array.from(tagMap.values());
-}
+      const key = String(t.name).toLowerCase().trim();
+      if (!tagMap.has(key)) {
+        tagMap.set(key, { id: t.id, name: t.name, category: "General" });
+      }
+    });
 
-  // ❌ Skip cuisine foodTags if a Non-Geo cuisine is selected
-if (!hasNonGeoCuisine) {
+    // 🛑 Stop here so nothing else adds tags
+    return Array.from(tagMap.values());
+  }
+
+  // ✅ Normal cuisines -> derive tags from cuisine.foodTags using master IDs
   appState.selectedCuisines.forEach((cuisine) => {
     (cuisine.foodTags || []).forEach((rawName) => {
       const tagName = String(rawName).trim();
@@ -317,26 +314,23 @@ if (!hasNonGeoCuisine) {
 
       if (tagMap.has(key)) return;
 
-      const master = byName.get(key);
+      const master =
+        byName.get(key) ||
+        (cuisineTagData.tagNameToId?.[key]
+          ? { id: cuisineTagData.tagNameToId[key], name: tagName, category: "Food" }
+          : null);
 
-      if (master) {
-        tagMap.set(key, {
-          id: master.id,
-          name: master.name,
-          category: master.category || "Other",
-        });
-      } else {
-        const stableId = `custom_${key.replace(/[^a-z0-9]+/g, "_")}`;
-        tagMap.set(key, {
-          id: stableId,
-          name: tagName,
-          category: "Other",
-        });
-      }
+      if (!master) return; // ✅ don't create custom_* tags
+
+      tagMap.set(key, {
+        id: master.id,
+        name: master.name,
+        category: master.category || "Other",
+      });
     });
   });
-}
 
+  // ✅ Final return (ONLY here)
   return Array.from(tagMap.values());
 }
 
@@ -710,6 +704,7 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
 
 
 
