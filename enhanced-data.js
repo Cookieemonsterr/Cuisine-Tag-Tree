@@ -1406,7 +1406,59 @@ const cuisineTagData = {
     { id: 1907, name: "Pancakes", category: "Others" },
     { id: 1908, name: "Bagels", category: "Others" },
   ];
-  
+const generalTags = [
+  { id: 124, name: "Breakfast", category: "General" },
+  { id: 211, name: "Bakery", category: "General" },
+  { id: 153, name: "Pastries", category: "General" },
+  { id: 204, name: "Sweets", category: "General" },
+  { id: 808, name: "Vegetarian", category: "General" },
+  { id: 600, name: "Seafood", category: "General" },
+  { id: 1899, name: "Poke", category: "General" },
+  { id: 357, name: "Pan Asian", category: "General" },
+  { id: 324, name: "Maki", category: "General" },
+  { id: 1074, name: "Pure Veg", category: "General" },
+  { id: 1073, name: "Thali", category: "General" },
+  { id: 1154, name: "Meals", category: "General" },
+  { id: 114, name: "Snacks", category: "General" },
+  { id: 149, name: "Soup", category: "General" },
+  { id: 150, name: "Salads", category: "General" },
+  { id: 541, name: "BBQ & Grill", category: "General" },
+  { id: 1169, name: "Dosa", category: "General" },
+  { id: 1257, name: "Maamoul", category: "General" },
+  { id: 202, name: "Kunafa", category: "General" },
+  { id: 454, name: "Luqaimat", category: "General" },
+  { id: 203, name: "Milk Shake", category: "General" },
+  { id: 260, name: "Pancakes", category: "General" },
+  { id: 906, name: "Petit Four", category: "General" },
+  { id: 1563, name: "Turkish Sweets", category: "General" },
+  { id: 917, name: "Popsicles", category: "General" },
+  { id: 1173, name: "Sandwiches and wraps", category: "General" },
+  { id: 229, name: "Rolls", category: "General" },
+  { id: 1885, name: "Healthy Meals", category: "General" },
+  { id: 1096, name: "Healthy Salads", category: "General" },
+  { id: 1093, name: "Healthy Sandwiches", category: "General" },
+  { id: 1174, name: "Bagels", category: "General" },
+  { id: 452, name: "Protein Balls", category: "General" },
+  { id: 42, name: "Bakery & Confectionery", category: "General" },
+  { id: 538, name: "Cocktails", category: "General" },
+  { id: 831, name: "Juices", category: "General" },
+  { id: 259, name: "Smoothies", category: "General" },
+  { id: 840, name: "Street food", category: "General" },
+  { id: 1091, name: "Vitality Juices", category: "General" },
+  { id: 679, name: "Paratha", category: "General" },
+  { id: 224, name: "Quesadilla", category: "General" },
+  { id: 222, name: "Nachos", category: "General" },
+  { id: 659, name: "Fast Food", category: "General" },
+  { id: 251, name: "Fried Chicken", category: "General" },
+  { id: 392, name: "Waffle Fries", category: "General" },
+  { id: 53, name: "Burger", category: "General" },
+];
+
+const tagExistingIds = new Set((cuisineTagData.allTags || []).map(t => t && t.id));
+generalTags.forEach(t => {
+  if (!tagExistingIds.has(t.id)) cuisineTagData.allTags.push(t);
+});
+
 // ✅ ALSO add Non-Geographical as CUISINES under "Others" (keep real IDs)
 const existingCuisineIds = new Set((cuisineTagData.cuisines || []).map(c => c && c.id));
 
@@ -1428,5 +1480,6 @@ nonGeoTags.forEach((t) => {
     if (!existingIds.has(t.id)) cuisineTagData.allTags.push(t);
   });
 })();
+
 
 
