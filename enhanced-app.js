@@ -600,12 +600,11 @@ function loadStateFromStorage() {
     appState.selectedCuisines = (loaded.selectedCuisines || []).filter((c) =>
       cuisineTagData.cuisines.find((x) => x.id === c.id),
     );
-    appState.selectedTags = (loaded.selectedTags || []).filter((t) => {
-  if (String(t.id).startsWith("custom:")) return true;
-  return cuisineTagData.allTags.find((x) => x.id === t.id);
-    appState.lockedCuisineCategory = loaded.lockedCuisineCategory || (appState.selectedCuisines[0]?.category ?? null);
-});
-    );
+  appState.selectedTags = (loaded.selectedTags || []).filter((t) => {
+    if (String(t.id).startsWith("custom:")) return true;
+    return cuisineTagData.allTags.find((x) => x.id === t.id);
+  });
+  appState.lockedCuisineCategory = loaded.lockedCuisineCategory || (appState.selectedCuisines[0]?.category ?? null);
   }
 
   // Update UI with loaded settings (only those that still exist)
@@ -639,4 +638,5 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
 
