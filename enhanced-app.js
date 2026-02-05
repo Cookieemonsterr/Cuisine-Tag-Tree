@@ -125,7 +125,7 @@ function renderCuisines() {
   const grid = document.getElementById("cuisineGrid");
   grid.innerHTML = "";
 
-  const filtered = filterCuisinesBySearch();
+const filtered = filterCuisinesBySearch().filter(c => !(c && c.id === 9999));
 
   if (appState.showCategories) {
     const grouped = {};
@@ -170,7 +170,7 @@ function renderCuisines() {
 function createCuisineButton(cuisine) {
   const btn = document.createElement("button");
   btn.className = "btn cuisine-btn";
-  btn.textContent = `${cuisine.name} (#${cuisine.id})`;
+  btn.textContent = `${cuisine.name} (${cuisine.id})`;
   btn.dataset.id = cuisine.id;
 
   const isSelected = appState.selectedCuisines.find((c) => c.id === cuisine.id);
@@ -348,7 +348,7 @@ function renderTags() {
   relatedTags.forEach((tag) => {
     const btn = document.createElement("button");
     btn.className = "btn tag-btn";
-    btn.textContent = `${tag.name} (#${tag.id}) ${tag.category ? `[${tag.category}]` : ""}`;
+    btn.textContent = `${tag.name} (${tag.id}) ${tag.category ? `[${tag.category}]` : ""}`;
     btn.dataset.id = tag.id;
 
     if (appState.selectedTags.find((t) => t.id === tag.id)) {
@@ -400,7 +400,7 @@ function updateSummary() {
       ? appState.selectedCuisines
           .map(
             (c) =>
-              `<li><span class="badge">${c.category}</span> ${c.name} <span class="muted">#${c.id}</span></li>`,
+              `<li><span class="badge">${c.category}</span> ${c.name} <span class="muted">${c.id}</span></li>`,
           )
           .join("")
       : '<li class="empty">No cuisines selected</li>';
@@ -411,7 +411,7 @@ function updateSummary() {
       ? appState.selectedTags
           .map(
             (t) =>
-              `<li><span class="badge">${t.category}</span> ${t.name} <span class="muted">#${t.id}</span></li>`,
+              `<li><span class="badge">${t.category}</span> ${t.name} <span class="muted">${t.id}</span></li>`,
           )
           .join("")
       : '<li class="empty">No tags selected</li>';
@@ -696,5 +696,6 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
 
 
