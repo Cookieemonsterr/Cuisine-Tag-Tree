@@ -1175,7 +1175,6 @@ const cuisineTagData = {
     "british": 40,
     "chettinad": 70,
     "chinese": 1,
-    "egyptian": 39,
     "emirati": 47,
     "filipino": 41,
     "french": 3,
@@ -1238,7 +1237,6 @@ const cuisineTagData = {
   "kebab": 847,
   "hummus": 241,
   "bbq & grill": 541,
-
   "asian": 92,
   "dimsum": 1142,
   "pad thai": 1145,
@@ -1255,7 +1253,6 @@ const cuisineTagData = {
   "noodles & ramen": 151,
   "nasi goreng": 1152,
   "bibimbap": 1153,
-
   "pakistani": 34,
   "indian": 5,
   "goan": 75,
@@ -1272,7 +1269,6 @@ const cuisineTagData = {
   "pure veg": 1074,
   "thali": 1073,
   "dosa": 1906,
-
   "desserts": 247,
   "crepes": 99,
   "shakes": 236,
@@ -1284,7 +1280,6 @@ const cuisineTagData = {
   "cakes": 95,
   "waffles": 325,
   "pancakes": 1907,
-
   "healthy": 544,
   "soup": 149,
   "juices": 831,
@@ -1299,7 +1294,6 @@ const cuisineTagData = {
   "keto": 279,
   "gluten-free": 827,
   "acai": 191,
-
   "cafe": 35,
   "coffee": 250,
   "sandwiches": 147,
@@ -1309,25 +1303,20 @@ const cuisineTagData = {
   "sweets": 204,
   "wraps": 469,
   "croissants": 1047,
-
   "cafeteria": 1179,
   "cocktails": 538,
-
   "mexican": 13,
   "burritos": 223,
   "quesadilla": 224,
   "nachos": 222,
-
   "russian": 17,
   "borscht": 1164,
-
   "european": 2,
   "pizza": 54,
   "pasta": 106,
   "gyros": 1165,
   "tortilla": 1900,
   "fish & chips": 656,
-
   "bakery & confectionery": 42,
   "chicken": 113,
   "pretzel": 1902,
@@ -1342,6 +1331,13 @@ const cuisineTagData = {
   "fast food": 36,
   "bagels": 1908
   };
+// ✅ Build tagNameToId from mapping (so foodTags resolve to real IDs)
+cuisineTagData.tagNameToId = cuisineTagData.tagNameToId || {};
+
+Object.entries(cuisineIdByName).forEach(([k, v]) => {
+  // Only keep "tag-ish" entries (numbers are fine; we use the same map)
+  cuisineTagData.tagNameToId[String(k).toLowerCase().trim()] = v;
+});
 
   cuisineTagData.cuisines.forEach((c) => {
     const key = String(c.name || "").toLowerCase().trim();
@@ -1480,6 +1476,7 @@ nonGeoTags.forEach((t) => {
     if (!existingIds.has(t.id)) cuisineTagData.allTags.push(t);
   });
 })();
+
 
 
 
