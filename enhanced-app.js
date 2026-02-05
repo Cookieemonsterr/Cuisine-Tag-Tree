@@ -295,6 +295,8 @@ if (hasNonGeoCuisine) {
   });
 }
 
+  // ❌ Skip cuisine foodTags if a Non-Geo cuisine is selected
+if (!hasNonGeoCuisine) {
   appState.selectedCuisines.forEach((cuisine) => {
     (cuisine.foodTags || []).forEach((rawName) => {
       const tagName = String(rawName).trim();
@@ -305,14 +307,12 @@ if (hasNonGeoCuisine) {
       const master = byName.get(key);
 
       if (master) {
-        // Use the real ID + category from the sheet/data
         tagMap.set(key, {
           id: master.id,
           name: master.name,
           category: master.category || "Other",
         });
       } else {
-        // Fallback: create a stable-ish ID (so it doesn’t change every refresh)
         const stableId = `custom_${key.replace(/[^a-z0-9]+/g, "_")}`;
         tagMap.set(key, {
           id: stableId,
@@ -322,6 +322,7 @@ if (hasNonGeoCuisine) {
       }
     });
   });
+}
 
   return Array.from(tagMap.values());
 }
@@ -696,6 +697,7 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
 
 
 
