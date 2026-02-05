@@ -279,7 +279,7 @@ function getRelatedTags() {
   const tagMap = new Map();
   
 const hasNonGeoCuisine = appState.selectedCuisines.some(
-  (c) => c && c.category === "Others" && (c.__nonGeo === true)
+  (c) => c && c.category === "Others" && c.__nonGeo === true
 );
 
 if (hasNonGeoCuisine) {
@@ -287,7 +287,6 @@ if (hasNonGeoCuisine) {
     if (!t || !t.name) return;
     const cat = String(t.category || "").toLowerCase().trim();
     if (cat.includes("general")) {
- {
       const key = String(t.name).toLowerCase().trim();
       if (!tagMap.has(key)) {
         tagMap.set(key, { id: t.id, name: t.name, category: t.category });
@@ -697,4 +696,5 @@ function showToast(message, type = "info") {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
 
